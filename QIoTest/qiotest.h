@@ -42,9 +42,9 @@ signals:
 	void signalFind(QString);
 private:
 	Ui::QIoTestClass ui;
-	QList<itemTest> mListTest;
-	QSet<QString> mCurCategorys;
+	
 	QLabel *mFindPointLabel;
+	QString mFilePath;
 };
 
 #endif // QIOTEST_H

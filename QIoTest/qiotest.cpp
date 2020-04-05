@@ -5,6 +5,7 @@
 #include <QItemSelectionModel>
 #include <vector>
 #include <QVBoxLayout>
+#include <QFileDialog>
 
 GLOBAL
 
@@ -13,6 +14,33 @@ using namespace Drose;
 
 QMap<QString, QList<QString>> mapTest;
 vector<int> mCurBoards;
+QList<itemTest> mListTest;
+QSet<QString> mCurCategorys;
+bool mbPause = false;
+bool mbExit = false;
+
+void inline _updateCurBoards()
+{
+	mCurBoards.clear();
+
+	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+	{
+		if (!mCurCategorys.contains(it->category))
+		{
+			it->bInlist = false;
+			continue;
+		}
+
+		mapTest[it->pinL].append(it->pinR);
+
+		//
+		mCurBoards.push_back(it->pinL.toInt() / 64);
+		mCurBoards.push_back(it->pinR.toInt() / 64);
+
+		sort(mCurBoards.begin(), mCurBoards.end());
+		mCurBoards.erase(unique(mCurBoards.begin(), mCurBoards.end()), mCurBoards.end());
+	}
+}
 
 void inline _initBoard(int boardNo)
 {
@@ -109,6 +137,7 @@ void inline _outPin(int boardNo, int pinNo = 0, H_L v = L)
 
 }
 
+
 bool inline _checkPins(itemTest item)
 {
 	QByteArray send;
@@ -188,7 +217,7 @@ bool inline _checkPins(itemTest item)
 
 }
 
-void inline lineTest(itemTest item)
+bool inline lineTest(itemTest item)
 {
 	int boardNo = (item.pinL.toInt() - 1) / 64;
 	int pinNo = (item.pinL.toInt() - 1) % 64;
@@ -197,12 +226,17 @@ void inline lineTest(itemTest item)
 	{
 		qDebug() << QString("no board %0").arg(boardNo) << "\r";
 		Sleep(10);
-		return;
+		return false;
 	}
 
 	_outPin(boardNo, pinNo);
 
-	_checkPins(item);
+	if (!_checkPins(item))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 QIoTest::QIoTest(QWidget *parent)
@@ -246,6 +280,8 @@ QIoTest::QIoTest(QWidget *parent)
 			ui.listWidgetUp->addItem(tItem);
 			mCurCategorys.insert(tItem->text());
 		}
+
+		_updateCurBoards();
 	});
 
 	connect(ui.pushButtonMoveDown, &QPushButton::clicked, [this]() {
@@ -258,18 +294,24 @@ QIoTest::QIoTest(QWidget *parent)
 			mCurCategorys.remove(tItem->text());
 		}
 
+		_updateCurBoards();
 	});
 	
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
 		
+		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("µµ°¸"), gExePath + "/cfg/", "*.xlsx");
+
+		if (mFilePath.isEmpty())
+			return;		
+
 		FileIo::xlsxFile file;
-		file.readExcel(gExePath + "/LCA15150A16541588.xlsx", ui.tableWidget);
-		
-		
-		
+		file.readExcel(mFilePath, ui.tableWidget);
+	
 		auto count = ui.tableWidget->rowCount();
 
 		mListTest.clear();
+		mCurCategorys.clear();
+
 		for (size_t i = 0; i < ui.tableWidget->rowCount(); i++)
 		{
 			itemTest tItem;
@@ -291,16 +333,68 @@ QIoTest::QIoTest(QWidget *parent)
 			ui.listWidgetUp->addItem(*it);			
 		}
 				
-		Sleep(0);
+		_updateCurBoards();
+	});
+	
+	connect(ui.pushButtonEdit, &QPushButton::clicked, [this]() {
+
+		static bool b = false;
+		b = !b;
+		ui.pushButtonSave->setEnabled(b);
+
 	});
 
+	ui.pushButtonSave->setEnabled(false);
 	connect(ui.pushButtonSave, &QPushButton::clicked, [this]() {
 
 		FileIo::xlsxFile file;
-		file.writeExcel(gExePath + "/MCA-III20180802.xlsx", ui.tableWidget);
+		file.writeExcel(mFilePath, ui.tableWidget);
 
 	});
 	
+	connect(ui.pushButtonSelfCheck, &QPushButton::clicked, [this]() {
+
+		_updateCurBoards();
+
+		//
+		for (size_t i = 0; i < mCurBoards.size(); i++)
+		{
+			int boardNo = mCurBoards[i];
+			if (!gpTcpClientVector[boardNo]->init())
+			{
+				gpSignal->showDialogSignal("", ipVector[boardNo][0] + ": connect error");
+
+				return;
+			}
+
+			_initBoard(boardNo);
+
+			//
+			int tPin;
+			if (_findPin(boardNo, tPin))
+			{
+				gpSignal->showDialogSignal("", QString("board: %0   pin: %1  error").arg(boardNo).arg(tPin));
+
+				return;
+			}
+		}
+		
+
+	});
+
+	connect(ui.pushButtonLockScreen, &QPushButton::clicked, [this]() {
+
+		QDialog tDialog;
+		QLabel tLabel("Lock");
+		QVBoxLayout tpLayout;
+		tDialog.setFixedSize(500, 400);
+		tLabel.setFixedSize(300, 200);
+		tpLayout.addWidget(&tLabel);
+		tDialog.setLayout(&tpLayout);
+		tDialog.exec();
+
+	});
+
 	// 
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 		QDialog* tpDialog = new QDialog();
@@ -314,12 +408,69 @@ QIoTest::QIoTest(QWidget *parent)
 		tpDialog->exec();
 	});
 
+	connect(ui.pushButtonPause, &QPushButton::clicked, [this]() {
+		mbPause = !mbPause;
+		mbPause ? ui.pushButtonPause->setText(QStringLiteral("¼ÌÐø")) : ui.pushButtonPause->setText(QStringLiteral("ÔÝÍ£"));
+	});
+
+	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
+		mbExit = true;
+
+		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+		{
+			ui.tableWidget->item(it->rowNo, 0)->setText("");
+			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 255, 255));
+		}
+	});
+
+	connect(ui.pushButtonStepTest, &QPushButton::clicked, [this]() {
+		
+		QList<QTableWidgetItem*>items = ui.tableWidget->selectedItems();
+		
+		int i = ui.tableWidget->row(items.at(0));
+
+		itemTest tItem;
+		tItem.bInlist = true;
+		tItem.result = -1;
+		tItem.rowNo = i;
+		tItem.coordinateL = ui.tableWidget->item(i, 1)->text();
+		tItem.coordinateR = ui.tableWidget->item(i, 2)->text();
+		tItem.category = ui.tableWidget->item(i, 3)->text();
+		tItem.pinL = ui.tableWidget->item(i, 8)->text();
+		tItem.pinR = ui.tableWidget->item(i, 9)->text();
+
+		ui.labelCoordinateL->setText(tItem.coordinateL);
+		ui.labelCoordinateR->setText(tItem.coordinateR);
+		ui.labelPinL->setText(tItem.pinL);
+		ui.labelPinR->setText(tItem.pinR);
+		ui.labelCategory->setText(tItem.category);
+
+		if (!lineTest(tItem))
+		{
+			ui.labelResult->setText("NG");
+			
+			ui.tableWidget->item(tItem.rowNo, 0)->setText("NG");
+			ui.tableWidget->item(tItem.rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
+		}
+		else
+		{
+			ui.tableWidget->item(tItem.rowNo, 0)->setText("OK");
+			ui.tableWidget->item(tItem.rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
+		}
+	});
+
+	
+
+
+
 
 	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)), Qt::QueuedConnection);
 
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
 
 	connect(ui.pushButtonStart, &QPushButton::clicked, [this]() {
+
+
 
 		/*
 		QByteArray send;
@@ -392,24 +543,7 @@ QIoTest::QIoTest(QWidget *parent)
 		gpTcpClientVector[3]->communicate(send, tRecv);
 		*/
 		
-		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
-		{			
-			if (!mCurCategorys.contains(it->category))
-			{
-				it->bInlist = false;
-				continue;
-			}
-
-			mapTest[it->pinL].append(it->pinR);
-
-			//
-			mCurBoards.push_back(it->pinL.toInt() / 64);
-			mCurBoards.push_back(it->pinR.toInt() / 64);
-			
-			sort(mCurBoards.begin(), mCurBoards.end());
-			mCurBoards.erase(unique(mCurBoards.begin(), mCurBoards.end()), mCurBoards.end());
-		}
-		
+		ui.pushButtonStart->setEnabled(false);
 		signalStartList();
 
 	});
@@ -454,14 +588,51 @@ void QIoTest::slotStartList()
 {
 	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 	{
+		QApplication::processEvents();
+
+		if (mbExit)
+		{
+			mbExit = false;
+			break;
+		}
+
+		if (mbPause)
+		{
+			it--;
+			continue;
+		}
+
 		if (!mCurCategorys.contains(it->category))
 		{
 			it->bInlist = false;
 			continue;
 		}
 
-		lineTest(*it);
+		if (!lineTest(*it))
+		{	
 
-		QApplication::processEvents();
+			ui.labelResult->setText("NG");
+			ui.labelCoordinateL->setText(it->coordinateL);
+			ui.labelCoordinateR->setText(it->coordinateR);
+			ui.labelPinL->setText(it->pinL);
+			ui.labelPinR->setText(it->pinR);
+			ui.labelCategory->setText(it->category);
+
+			ui.tableWidget->item(it->rowNo, 0)->setText("NG");
+			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
+
+			if (QMessageBox::question(this, "", QStringLiteral("Ìø¹ý£¿")) != QMessageBox::Yes)
+			{
+				break;
+			}
+		}
+		else
+		{
+			ui.tableWidget->item(it->rowNo, 0)->setText("OK");
+			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
+		}
+			
 	}
+
+	ui.pushButtonStart->setEnabled(true);
 }
