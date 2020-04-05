@@ -1,0 +1,47 @@
+
+#pragma once
+
+#include <QtWidgets/QMainWindow>
+#include "ui_qiotest.h"
+#include <windows.h>
+#include <memory>
+#include <mytimer.h>
+#include <mysignal.h>
+#include <filelib.h>
+#include <QPushButton>
+#include <QGroupBox>
+#include "D:/DROSE/Libhpp/mythread.hpp"
+#include "D:/DROSE/Libhpp/__communicateLib.hpp"
+#include <QProcess>
+#include <QSettings>
+#include <mysqlite.h>
+#include <xlsxfile.h>
+#include <QtSql\QSqlTableModel>
+
+
+#pragma comment(lib, "MySignal.lib")
+#pragma comment(lib, "FileLib.lib")
+#pragma comment(lib, "scansn.lib")
+#pragma comment(lib, "xmlwidget.lib")
+#pragma comment(lib, "mysqlite.lib")
+#pragma comment(lib, "xlsxFile.lib")
+#pragma comment(lib, "mytimer.lib")
+
+
+extern  Ui::QIoTestClass* gpUi;
+extern  QString gExePath;
+extern  std::shared_ptr<Drose::MySignalUi> gpSignal;
+extern  std::shared_ptr<Drose::Mytimer> gpMytimer;
+extern  std::vector<QStringList> ipVector;
+extern  std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;
+extern  std::vector<Drose::WorkerThread*> gpIoThreadVector;
+
+#define GLOBAL \
+Ui::QIoTestClass* gpUi;\
+QString gExePath;\
+std::shared_ptr<Drose::MySignalUi> gpSignal;\
+std::shared_ptr<Drose::Mytimer> gpMytimer;\
+std::vector<QStringList> ipVector;\
+std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;\
+std::vector<Drose::WorkerThread*> gpIoThreadVector;
+
