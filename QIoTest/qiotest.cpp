@@ -42,7 +42,7 @@ void inline _updateCurBoards()
 	}
 }
 
-void inline _initBoard(int boardNo)
+bool inline _initBoard(int boardNo)
 {
 	QByteArray send;
 	QByteArray tRecv;
@@ -60,14 +60,11 @@ void inline _initBoard(int boardNo)
 	send[10] = 0x00;
 	send[11] = 0x7E;
 
-	gpTcpClientVector[boardNo]->communicate(send, tRecv);
+	return gpTcpClientVector[boardNo]->communicate(send, tRecv);
 }
 
 bool inline _findPin(int boardNo, int& pin)
-{
-	pin = 63;
-	return true;
-
+{	
 	//
 	QByteArray send;
 	QByteArray tRecv;
@@ -138,7 +135,7 @@ void inline _outPin(int boardNo, int pinNo = 0, H_L v = L)
 }
 
 
-bool inline _checkPins(itemTest item)
+bool inline QIoTest::_checkPins(itemTest item)
 {
 	QByteArray send;
 	QByteArray tRecv;
@@ -187,7 +184,7 @@ bool inline _checkPins(itemTest item)
 			{
 				if (!(tByte & (1 << j)))
 				{
-					vRight.append(64 * i + j);
+					vRight.append(64 * index + 8 * i + j + 1);
 				}
 			}
 		}
@@ -200,15 +197,24 @@ bool inline _checkPins(itemTest item)
 
 	if (!vRight.contains(item.pinR.toInt()))
 	{
+		ui.labelResult->setText("NOT CONNECT.");
 		return false;
 	}
 
 	//
-
+	QList<QString> tList = mapTest[item.pinL];
 	for (auto it = vRight.begin(); it != vRight.end(); ++it)
 	{
-		if (!mapTest[item.pinL].contains(QString(*it)))
+		QString tString = QString::number(*it);
+
+		if (tString == item.pinL)
 		{
+			continue;
+		}
+
+		if (!tList.contains(tString))
+		{
+			ui.labelResult->setText("short.");
 			return false;
 		}
 	}
@@ -217,8 +223,13 @@ bool inline _checkPins(itemTest item)
 
 }
 
-bool inline lineTest(itemTest item)
+bool inline QIoTest::lineTest(itemTest item)
 {
+	for (size_t i = 0; i < ipVector.size(); i++)
+	{
+		_initBoard(i);
+	}
+	
 	int boardNo = (item.pinL.toInt() - 1) / 64;
 	int pinNo = (item.pinL.toInt() - 1) % 64;
 
@@ -264,7 +275,8 @@ QIoTest::QIoTest(QWidget *parent)
 		
 		if (!gpTcpClientVector[i]->init())
 		{
-			gpSignal->showDialogSignal("", ipVector[i][0] + ": connect error");
+			qDebug() << ipVector[i][0] +": connect error";
+		//	gpSignal->showDialogSignal("", ipVector[i][0] + ": connect error");
 		}
 
 		_initBoard(i);
@@ -386,6 +398,10 @@ QIoTest::QIoTest(QWidget *parent)
 
 		QDialog tDialog;
 		QLabel tLabel("Lock");
+		QFont ft;
+		ft.setPointSize(80);
+		tLabel.setFont(ft);
+
 		QVBoxLayout tpLayout;
 		tDialog.setFixedSize(500, 400);
 		tLabel.setFixedSize(300, 200);
@@ -399,6 +415,9 @@ QIoTest::QIoTest(QWidget *parent)
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 		QDialog* tpDialog = new QDialog();
 		mFindPointLabel = new  QLabel("pin:    ");
+		QFont ft;
+		ft.setPointSize(80);
+		mFindPointLabel->setFont(ft);
 		QVBoxLayout *tpLayout = new (QVBoxLayout);
 		
 		tpLayout->addWidget(mFindPointLabel);
@@ -408,11 +427,12 @@ QIoTest::QIoTest(QWidget *parent)
 		tpDialog->exec();
 	});
 
+	
 	connect(ui.pushButtonPause, &QPushButton::clicked, [this]() {
 		mbPause = !mbPause;
 		mbPause ? ui.pushButtonPause->setText(QStringLiteral("¼ÌÐø")) : ui.pushButtonPause->setText(QStringLiteral("ÔÝÍ£"));
 	});
-
+	
 	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
 		mbExit = true;
 
@@ -447,7 +467,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 		if (!lineTest(tItem))
 		{
-			ui.labelResult->setText("NG");
+		//	ui.labelResult->setText("NG");
 			
 			ui.tableWidget->item(tItem.rowNo, 0)->setText("NG");
 			ui.tableWidget->item(tItem.rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
@@ -460,10 +480,6 @@ QIoTest::QIoTest(QWidget *parent)
 	});
 
 	
-
-
-
-
 	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)), Qt::QueuedConnection);
 
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
@@ -545,7 +561,7 @@ QIoTest::QIoTest(QWidget *parent)
 		
 		ui.pushButtonStart->setEnabled(false);
 		signalStartList();
-
+		ui.labelResult->clear();
 	});
 	
 	connect(this, SIGNAL(signalStartList()), this, SLOT(slotStartList()));
@@ -566,7 +582,11 @@ void QIoTest::slotFindBegin()
 {
 	for (size_t i = 0; i < gpTcpClientVector.size(); i++)
 	{
-		_initBoard(i);
+		if (!_initBoard(i))
+		{
+			QMessageBox::warning(this, "", QString("_initBoard: %0  failed").arg(i));
+			return;
+		}
 	}
 	
 	while (true)
@@ -576,7 +596,7 @@ void QIoTest::slotFindBegin()
 		{
 			if (_findPin(i, tPin))
 			{
-				signalFind(QString("%0").arg(tPin * i));
+				signalFind(QString("%0").arg(tPin + 64 * i + 1));
 			}
 		}
 
@@ -611,7 +631,7 @@ void QIoTest::slotStartList()
 		if (!lineTest(*it))
 		{	
 
-			ui.labelResult->setText("NG");
+		//	ui.labelResult->setText("NG");
 			ui.labelCoordinateL->setText(it->coordinateL);
 			ui.labelCoordinateR->setText(it->coordinateR);
 			ui.labelPinL->setText(it->pinL);

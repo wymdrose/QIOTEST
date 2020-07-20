@@ -32,6 +32,9 @@ public:
 	QIoTest(QWidget *parent = 0);
 	~QIoTest();
 
+bool inline _checkPins(itemTest item);
+bool inline lineTest(itemTest item);
+
 public slots:
 	void slotStartList();
 	void slotFindBegin();
