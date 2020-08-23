@@ -255,7 +255,6 @@ QIoTest::QIoTest(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	
 	gpUi = &ui;
 	
 	gpSignal = std::make_shared<Drose::MySignalUi>();

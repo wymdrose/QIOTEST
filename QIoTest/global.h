@@ -17,7 +17,7 @@
 #include <mysqlite.h>
 #include <xlsxfile.h>
 #include <QtSql\QSqlTableModel>
-
+#include <dologs.h>
 
 #pragma comment(lib, "MySignal.lib")
 #pragma comment(lib, "FileLib.lib")
@@ -26,7 +26,7 @@
 #pragma comment(lib, "mysqlite.lib")
 #pragma comment(lib, "xlsxFile.lib")
 #pragma comment(lib, "mytimer.lib")
-
+#pragma comment(lib, "dologs.lib")
 
 extern  Ui::QIoTestClass* gpUi;
 extern  QString gExePath;
@@ -35,6 +35,7 @@ extern  std::shared_ptr<Drose::Mytimer> gpMytimer;
 extern  std::vector<QStringList> ipVector;
 extern  std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;
 extern  std::vector<Drose::WorkerThread*> gpIoThreadVector;
+extern  std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;
 
 #define GLOBAL \
 Ui::QIoTestClass* gpUi;\
@@ -43,5 +44,5 @@ std::shared_ptr<Drose::MySignalUi> gpSignal;\
 std::shared_ptr<Drose::Mytimer> gpMytimer;\
 std::vector<QStringList> ipVector;\
 std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;\
-std::vector<Drose::WorkerThread*> gpIoThreadVector;
-
+std::vector<Drose::WorkerThread*> gpIoThreadVector;\
+std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;
