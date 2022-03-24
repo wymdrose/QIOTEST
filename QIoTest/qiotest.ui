@@ -42,7 +42,7 @@
     <widget class="QPushButton" name="pushButtonFindpoint">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>150</x>
        <y>30</y>
        <width>93</width>
        <height>28</height>
@@ -58,7 +58,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>360</x>
+       <x>280</x>
        <y>30</y>
        <width>93</width>
        <height>28</height>
@@ -74,7 +74,7 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>500</x>
+       <x>410</x>
        <y>30</y>
        <width>93</width>
        <height>28</height>
@@ -87,7 +87,7 @@
     <widget class="QPushButton" name="pushButtonSelfCheck">
      <property name="geometry">
       <rect>
-       <x>660</x>
+       <x>530</x>
        <y>30</y>
        <width>93</width>
        <height>28</height>
@@ -100,7 +100,7 @@
     <widget class="QPushButton" name="pushButtonLockScreen">
      <property name="geometry">
       <rect>
-       <x>820</x>
+       <x>650</x>
        <y>30</y>
        <width>93</width>
        <height>28</height>
@@ -124,6 +124,32 @@
      </property>
      <property name="text">
       <string>系统设置</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonConnect">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>30</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Connect</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonRead">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>30</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Read</string>
      </property>
     </widget>
    </widget>

@@ -6,6 +6,7 @@
 #include "global.h"
 #include <QList>
 
+
 enum H_L
 {
 	L, H
@@ -39,15 +40,24 @@ public slots:
 	void slotStartList();
 	void slotFindBegin();
 	void slotFind(QString);
+
+private slots:
+	void readReady();
+	void slotValueReady();
+
 signals:
 	void signalStartList();
 	void signalFindBegin();
 	void signalFind(QString);
+
+	void signalValueReady();
+
 private:
 	Ui::QIoTestClass ui;
 	
 	QLabel *mFindPointLabel;
 	QString mFilePath;
+	
 };
 
 #endif // QIOTEST_H

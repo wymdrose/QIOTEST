@@ -18,6 +18,13 @@
 #include <xlsxfile.h>
 #include <QtSql\QSqlTableModel>
 #include <dologs.h>
+#include <QtSerialBus/QModbusDataUnit>
+#include <QtSerialBus/QModbusTcpClient>
+
+#pragma comment(lib, "Qt5Networkd.lib")
+#pragma comment(lib, "Qt5SerialPortd.lib")
+#pragma comment(lib, "Qt5Widgetsd.lib")
+#pragma comment(lib, "Qt5SerialBusd.lib")
 
 #pragma comment(lib, "MySignal.lib")
 #pragma comment(lib, "FileLib.lib")
@@ -36,6 +43,7 @@ extern  std::vector<QStringList> ipVector;
 extern  std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;
 extern  std::vector<Drose::WorkerThread*> gpIoThreadVector;
 extern  std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;
+extern  std::shared_ptr<QModbusClient> gpModbusDevice;
 
 #define GLOBAL \
 Ui::QIoTestClass* gpUi;\
@@ -45,4 +53,5 @@ std::shared_ptr<Drose::Mytimer> gpMytimer;\
 std::vector<QStringList> ipVector;\
 std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;\
 std::vector<Drose::WorkerThread*> gpIoThreadVector;\
-std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;
+std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;\
+std::shared_ptr<QModbusClient> gpModbusDevice;
