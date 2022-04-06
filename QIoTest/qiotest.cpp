@@ -12,14 +12,139 @@ GLOBAL
 using namespace std;
 using namespace Drose;
 
-QMap<QString, QList<QString>> mapTest;
+QMap<QString, QList<QString>> mapTest;	//need to test from cateory
 vector<int> mCurBoards;
-QList<itemTest> mListTest;
+QList<itemTest> mListTest;	//read all items from local file.
 QSet<QString> mCurCategorys;
 bool mbPause = false;
 bool mbExit = false;
-QVector<qint16> mValuse;
+//---------------------------------------------------------------------//
 
+QMap<int, QList<int>> mapValues;	//modbus
+QMap<int, QList<int>> mapTestTask;
+QVector<qint16> mValuse;	//read all from modbus
+
+
+
+void updateTestTask()
+{
+	mapTestTask.clear();
+
+	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+	{
+		if (!mCurCategorys.contains(it->category))
+		{
+			it->bInlist = false;
+			continue;
+		}
+
+		int s = it->pinL.toInt();
+		int b = it->pinR.toInt();
+
+		if (s < b)
+		{
+			mapTestTask[s].append(b);
+		}
+		else
+		{
+			mapTestTask[b].append(s);
+		}
+		
+	}
+}
+
+bool selfCheck()	//check value > index
+{
+	for (size_t i = 0; i < mValuse.length(); i++)
+	{
+		if (mValuse[i] < i)
+		{
+			qDebug() << QString("error: %0 and %1").arg(i).arg(mValuse[i]) << "\r";
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void valuesMap()	//update modbus values map
+{
+	mapValues.clear();
+
+	for (size_t i = 0; i < mValuse.length(); i++)
+	{
+		mapValues[i].append(mValuse[i]);
+	}
+}
+
+bool checkPins(itemTest item)
+{
+	int L = item.pinL.toInt();
+	int R = item.pinR.toInt();
+
+	int index;
+	L < R ? index = L : index = R;
+
+	for (auto item : mapValues[index])
+	{
+		if (mapTestTask[index].contains())
+		{
+
+		}
+	}
+	
+
+}
+
+void QIoTest::readReady()
+{
+	auto reply = qobject_cast<QModbusReply *>(sender());
+
+	if (!reply)
+		return;
+
+	if (reply->error() == QModbusDevice::NoError)
+	{
+		const QModbusDataUnit unit = reply->result();
+		for (uint i = 0; i < unit.valueCount(); i++)
+		{
+			mValuse.append(unit.value(i));
+		}
+	}
+	else if (reply->error() == QModbusDevice::ProtocolError)
+	{
+		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
+			arg(reply->errorString()).
+			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
+	}
+	else
+	{
+		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
+			arg(reply->errorString()).
+			arg(reply->error(), -1, 16), 5000);
+	}
+
+	reply->deleteLater();
+
+	if (mValuse.length() >= 50 * 32)
+	{
+		signalValueReady();
+	}
+
+}
+
+void QIoTest::slotValueReady()
+{
+	for (size_t i = 0; i < mValuse.length(); i++)
+	{
+		auto val = mValuse[i];
+	}
+
+}
+
+
+
+//------------------------------------------------------------//
 void inline _updateCurBoards()
 {
 	mCurBoards.clear();
@@ -114,8 +239,7 @@ void inline _outPin(int boardNo, int pinNo = 0, H_L v = L)
 
 }
 
-
-bool inline QIoTest::_checkPins(itemTest item)
+bool inline QIoTest::_checkPins(itemTest item)		//check L and R one line.
 {
 	QByteArray send;
 	QByteArray tRecv;
@@ -602,51 +726,4 @@ void QIoTest::slotStartList()
 	}
 
 	ui.pushButtonStart->setEnabled(true);
-}
-
-
-void QIoTest::readReady()
-{
-	auto reply = qobject_cast<QModbusReply *>(sender());
-
-	if (!reply)
-		return;
-
-	if (reply->error() == QModbusDevice::NoError) 
-	{
-		const QModbusDataUnit unit = reply->result();
-		for (uint i = 0; i < unit.valueCount(); i++) 
-		{
-			mValuse.append(unit.value(i));
-		}
-	}
-	else if (reply->error() == QModbusDevice::ProtocolError) 
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-	}
-	else 
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->error(), -1, 16), 5000);
-	}
-
-	reply->deleteLater();
-
-	if (mValuse.length() >= 50 * 32)
-	{
-		signalValueReady();
-	}
-	
-}
-
-void QIoTest::slotValueReady()
-{
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		auto val = mValuse[i];
-	}
-	
 }
