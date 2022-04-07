@@ -20,15 +20,52 @@ bool mbPause = false;
 bool mbExit = false;
 //---------------------------------------------------------------------//
 
-QMap<int, QList<int>> mapValues;	//modbus
-QMap<int, QList<int>> mapTestTask;
+QVector<QSet<int>> modbusSets;
+QVector<QSet<int>> testTaskSets;
 QVector<qint16> mValuse;	//read all from modbus
 
+void inline _updateSets(QVector<QSet<int>>& sets, int L, int R)
+{
+	int index;
+	for (index = 0; index < sets.length(); index++)
+	{
+		auto& item = sets[index];
+		if (item.contains(L) && !item.contains(R))
+		{
+			item.insert(R);
+		}
+		else if (!item.contains(L) && item.contains(R))
+		{
+			item.insert(L);
+		}
+	}
+	if (index >= sets.length())
+	{
+		QSet<int> tSet;
+		tSet.insert(L);
+		tSet.insert(R);
+		testTaskSets.push_back(tSet);
+	}
+}
 
+void updateModbusSets()
+{
+	modbusSets.clear();
+
+	for (size_t i = 0; i < mValuse.length(); i++)
+	{
+		if (mValuse[i] == 0)	//invoid
+		{
+			continue;
+		}
+
+		_updateSets(modbusSets, i, mValuse[i]);
+	}
+}
 
 void updateTestTask()
 {
-	mapTestTask.clear();
+	testTaskSets.clear();
 
 	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 	{
@@ -38,42 +75,29 @@ void updateTestTask()
 			continue;
 		}
 
-		int s = it->pinL.toInt();
-		int b = it->pinR.toInt();
+		int L = it->pinL.toInt();
+		int R = it->pinR.toInt();
 
-		if (s < b)
-		{
-			mapTestTask[s].append(b);
-		}
-		else
-		{
-			mapTestTask[b].append(s);
-		}
+		_updateSets(testTaskSets, L, R);
 		
 	}
 }
 
-bool selfCheck()	//check value > index
+
+bool inline _checkShort(QSet<int> item, int L, int R)
 {
-	for (size_t i = 0; i < mValuse.length(); i++)
+	for (auto&& set : testTaskSets)
 	{
-		if (mValuse[i] < i)
+		if (set.contains(L) && set.contains(R))
 		{
-			qDebug() << QString("error: %0 and %1").arg(i).arg(mValuse[i]) << "\r";
-			return false;
+			item.remove(L);
+			item.remove(R);
+
+			if (!set.contains(item))
+			{
+				return false;
+			}
 		}
-	}
-
-	return true;
-}
-
-void valuesMap()	//update modbus values map
-{
-	mapValues.clear();
-
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		mapValues[i].append(mValuse[i]);
 	}
 }
 
@@ -83,17 +107,39 @@ bool checkPins(itemTest item)
 	int R = item.pinR.toInt();
 
 	int index;
-	L < R ? index = L : index = R;
-
-	for (auto item : mapValues[index])
+	for (index = 0; index < modbusSets.length(); index++)
 	{
-		if (mapTestTask[index].contains())
-		{
+		auto&& item = modbusSets[index];
 
+		if (item.contains(L) && item.contains(R))
+		{
+			if (!_checkShort(item, L, R))
+			{
+				return false;	//short
+			}
 		}
 	}
-	
 
+	if (index >= modbusSets.length())
+	{
+		return false;	//disconnect
+	}
+
+	return true;
+}
+
+bool selfCheck()	//check value > index
+{
+	for (size_t i = 0; i < mValuse.length(); i++)
+	{
+		if (mValuse[i] != 0 && mValuse[i] < i + 1)
+		{
+			qDebug() << QString("error: %0 and %1").arg(i + 1).arg(mValuse[i]) << "\r";
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void QIoTest::readReady()
