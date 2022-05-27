@@ -33,31 +33,55 @@ public:
 	QIoTest(QWidget *parent = 0);
 	~QIoTest();
 
-bool inline _checkPins(itemTest item);
-bool inline lineTest(itemTest item);
+bool lineTest(itemTest item);
 
 public slots:
 	void slotStartList();
 	void slotFindBegin();
 	void slotFind(QString);
 
-private slots:
 	void readReady();
-	void slotValueReady();
+	void slotValuesReady();
+	void slotCheckModbus();
+	void slotReadAll();
 
 signals:
 	void signalStartList();
 	void signalFindBegin();
 	void signalFind(QString);
 
-	void signalValueReady();
-
+	void signalCheckModbus();
+	void signalReadAll();
+	void signalValuesReady();
+	
 private:
 	Ui::QIoTestClass ui;
 	
 	QLabel *mFindPointLabel;
 	QString mFilePath;
 	
+	void pushButtonConnectSlot();
+	void pushButtonReadSlot();
+	void modbudConnectSources();
+	void updateSets(QVector<QSet<int>>& sets, int L, int R);
+	void updateModbusSets();
+	void updateTestTask();
+	bool checkShort(QSet<int> item, int L, int R);
+	bool checkPins(itemTest item);
+	bool selfCheck();
+
+
+	QMap<QString, QList<QString>> mapTest;	//need to test from cateory
+	std::vector<int> mCurBoards;
+	QList<itemTest> mListTest;	//read all items from local file.
+	QSet<QString> mCurCategorys;
+	bool mbPause = false;
+	bool mbExit = false;
+	//---------------------------------------------------------------------//
+
+	QVector<QSet<int>> modbusSets;
+	QVector<QSet<int>> testTaskSets;	//from csv
+	QVector<qint16> mValuse;	//read all from modbus
 };
 
 #endif // QIOTEST_H

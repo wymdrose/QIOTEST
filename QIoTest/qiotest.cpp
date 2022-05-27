@@ -6,399 +6,13 @@
 #include <vector>
 #include <QVBoxLayout>
 #include <QtWidgets/qfiledialog.h>
+#include "modbusModel.hpp"
+#include "testProcess.hpp"
 
 GLOBAL
 
 using namespace std;
 using namespace Drose;
-
-QMap<QString, QList<QString>> mapTest;	//need to test from cateory
-vector<int> mCurBoards;
-QList<itemTest> mListTest;	//read all items from local file.
-QSet<QString> mCurCategorys;
-bool mbPause = false;
-bool mbExit = false;
-//---------------------------------------------------------------------//
-
-QVector<QSet<int>> modbusSets;
-QVector<QSet<int>> testTaskSets;
-QVector<qint16> mValuse;	//read all from modbus
-
-void inline _updateSets(QVector<QSet<int>>& sets, int L, int R)
-{
-	int index;
-	for (index = 0; index < sets.length(); index++)
-	{
-		auto& item = sets[index];
-		if (item.contains(L) && !item.contains(R))
-		{
-			item.insert(R);
-		}
-		else if (!item.contains(L) && item.contains(R))
-		{
-			item.insert(L);
-		}
-	}
-	if (index >= sets.length())
-	{
-		QSet<int> tSet;
-		tSet.insert(L);
-		tSet.insert(R);
-		testTaskSets.push_back(tSet);
-	}
-}
-
-void updateModbusSets()
-{
-	modbusSets.clear();
-
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		if (mValuse[i] == 0)	//invoid
-		{
-			continue;
-		}
-
-		_updateSets(modbusSets, i, mValuse[i]);
-	}
-}
-
-void updateTestTask()
-{
-	testTaskSets.clear();
-
-	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
-	{
-		if (!mCurCategorys.contains(it->category))
-		{
-			it->bInlist = false;
-			continue;
-		}
-
-		int L = it->pinL.toInt();
-		int R = it->pinR.toInt();
-
-		_updateSets(testTaskSets, L, R);
-		
-	}
-}
-
-
-bool inline _checkShort(QSet<int> item, int L, int R)
-{
-	for (auto&& set : testTaskSets)
-	{
-		if (set.contains(L) && set.contains(R))
-		{
-			item.remove(L);
-			item.remove(R);
-
-			if (!set.contains(item))
-			{
-				return false;
-			}
-		}
-	}
-}
-
-bool checkPins(itemTest item)
-{
-	int L = item.pinL.toInt();
-	int R = item.pinR.toInt();
-
-	int index;
-	for (index = 0; index < modbusSets.length(); index++)
-	{
-		auto&& item = modbusSets[index];
-
-		if (item.contains(L) && item.contains(R))
-		{
-			if (!_checkShort(item, L, R))
-			{
-				return false;	//short
-			}
-		}
-	}
-
-	if (index >= modbusSets.length())
-	{
-		return false;	//disconnect
-	}
-
-	return true;
-}
-
-bool selfCheck()	//check value > index
-{
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		if (mValuse[i] != 0 && mValuse[i] < i + 1)
-		{
-			qDebug() << QString("error: %0 and %1").arg(i + 1).arg(mValuse[i]) << "\r";
-			return false;
-		}
-	}
-
-	return true;
-}
-
-void QIoTest::readReady()
-{
-	auto reply = qobject_cast<QModbusReply *>(sender());
-
-	if (!reply)
-		return;
-
-	if (reply->error() == QModbusDevice::NoError)
-	{
-		const QModbusDataUnit unit = reply->result();
-		for (uint i = 0; i < unit.valueCount(); i++)
-		{
-			mValuse.append(unit.value(i));
-		}
-	}
-	else if (reply->error() == QModbusDevice::ProtocolError)
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-	}
-	else
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->error(), -1, 16), 5000);
-	}
-
-	reply->deleteLater();
-
-	if (mValuse.length() >= 50 * 32)
-	{
-		signalValueReady();
-	}
-
-}
-
-void QIoTest::slotValueReady()
-{
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		auto val = mValuse[i];
-	}
-
-}
-
-
-
-//------------------------------------------------------------//
-void inline _updateCurBoards()
-{
-	mCurBoards.clear();
-
-	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
-	{
-		if (!mCurCategorys.contains(it->category))
-		{
-			it->bInlist = false;
-			continue;
-		}
-
-		mapTest[it->pinL].append(it->pinR);
-
-		//
-		mCurBoards.push_back(it->pinL.toInt() / 64);
-		mCurBoards.push_back(it->pinR.toInt() / 64);
-
-		sort(mCurBoards.begin(), mCurBoards.end());
-		mCurBoards.erase(unique(mCurBoards.begin(), mCurBoards.end()), mCurBoards.end());
-	}
-}
-
-bool inline _findPin(int boardNo, int& pin)
-{	
-	//
-	QByteArray send;
-	QByteArray tRecv;
-	send.resize(12);
-	send[0] = 0x7E;
-	send[1] = 0x02;
-	send[2] = 0x00;
-	send[3] = 0x00;
-	send[4] = 0x00;
-	send[5] = 0x00;
-	send[6] = 0x00;
-	send[7] = 0x00;
-	send[8] = 0x00;
-	send[9] = 0x00;
-	send[10] = 0x00;
-	send[11] = 0x7E;
-
-	gpTcpClientVector[boardNo]->communicate(send, tRecv);
-
-	for (size_t i = 0; i < 8; i++)
-	{
-		byte tByte = tRecv.at(i + 2);
-
-		if (tByte == 0xFF)
-		{
-			continue;
-		}
-
-		for (size_t j = 0; j < 8; j++)
-		{
-			if (!(tByte & (1 << j)))
-			{
-				pin = 8 * i + j;
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-void inline _outPin(int boardNo, int pinNo = 0, H_L v = L)
-{
-	QByteArray send;
-	QByteArray tRecv;
-	send.resize(12);
-
-	send[0] = 0x7E;
-	send[1] = 0x00;
-	send[2] = 0xFF;
-	send[3] = 0xFF;
-	send[4] = 0xFF;
-	send[5] = 0xFF;
-	send[6] = 0xFF;
-	send[7] = 0xFF;
-	send[8] = 0xFF;
-	send[9] = 0xFF;
-	send[10] = 0x00;
-	send[11] = 0x7E;
-
-	send[pinNo / 8 + 2] = ~(H << (pinNo % 8));
-	gpTcpClientVector[boardNo]->communicate(send, tRecv);
-
-	//write
-	send[1] = 0x01;
-	gpTcpClientVector[boardNo]->communicate(send, tRecv);
-
-}
-
-bool inline QIoTest::_checkPins(itemTest item)		//check L and R one line.
-{
-	QByteArray send;
-	QByteArray tRecv;
-	send.resize(12);
-	tRecv.resize(12);
-
-	send[0] = 0x7E;
-	send[1] = 0x02;
-	send[2] = 0x00;
-	send[3] = 0x00;
-	send[4] = 0x00;
-	send[5] = 0x00;
-	send[6] = 0x00;
-	send[7] = 0x00;
-	send[8] = 0x00;
-	send[9] = 0x00;
-	send[10] = 0x00;
-	send[11] = 0x7E;
-
-	QVector<int> vRight;
-
-
-	for (auto it = mCurBoards.begin(); it != mCurBoards.end(); ++it)
-	{
-		int index = *it;
-
-		if (index > gpTcpClientVector.size()-1)
-		{
-			qDebug() << QString("no board %0").arg(index) << "\r";
-			Sleep(10);
-			continue;
-		}
-
-		gpTcpClientVector[index]->communicate(send, tRecv);
-		
-		for (size_t i = 0; i < 8; i++)
-		{
-			byte tByte = tRecv.at(i + 2);
-
-			if (tByte == 0xFF)
-			{
-				continue;
-			}
-
-			for (size_t j = 0; j < 8; j++)
-			{
-				if (!(tByte & (1 << j)))
-				{
-					vRight.append(64 * index + 8 * i + j + 1);
-				}
-			}
-		}
-	}
-
-	if (vRight.isEmpty())
-	{
-		return false;
-	}
-
-	if (!vRight.contains(item.pinR.toInt()))
-	{
-		ui.labelResult->setText("NOT CONNECT.");
-		return false;
-	}
-
-	//
-	QList<QString> tList = mapTest[item.pinL];
-	for (auto it = vRight.begin(); it != vRight.end(); ++it)
-	{
-		QString tString = QString::number(*it);
-
-		if (tString == item.pinL)
-		{
-			continue;
-		}
-
-		if (!tList.contains(tString))
-		{
-			ui.labelResult->setText("short.");
-			return false;
-		}
-	}
-	
-	return true;
-
-}
-
-bool inline QIoTest::lineTest(itemTest item)
-{
-	/*for (size_t i = 0; i < ipVector.size(); i++)
-	{
-		_initBoard(i);
-	}*/
-	
-	int boardNo = (item.pinL.toInt() - 1) / 64;
-	int pinNo = (item.pinL.toInt() - 1) % 64;
-
-	if (boardNo > gpTcpClientVector.size() - 1)
-	{
-		qDebug() << QString("no board %0").arg(boardNo) << "\r";
-		Sleep(10);
-		return false;
-	}
-
-	_outPin(boardNo, pinNo);
-
-	if (!_checkPins(item))
-	{
-		return false;
-	}
-
-	return true;
-}
 
 QIoTest::QIoTest(QWidget *parent)
 	: QMainWindow(parent)
@@ -415,7 +29,7 @@ QIoTest::QIoTest(QWidget *parent)
 	//modbus init
 	gpModbusDevice = std::make_shared<QModbusTcpClient>(this);
 
-	const QUrl url = QUrl::fromUserInput("127.0.0.1:502");
+	const QUrl url = QUrl::fromUserInput("192.168.1.55:502");
 	gpModbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, url.port());
 	gpModbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, url.host());
 
@@ -424,7 +38,11 @@ QIoTest::QIoTest(QWidget *parent)
 
 	if (!gpModbusDevice->connectDevice())
 	{
-		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString(), 5000);
+		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
+	}
+	else
+	{
+		statusBar()->showMessage(tr("Connected"));
 	}
 
 	connect(gpModbusDevice.get(), &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
@@ -444,7 +62,6 @@ QIoTest::QIoTest(QWidget *parent)
 			mCurCategorys.insert(tItem->text());
 		}
 
-		_updateCurBoards();
 	});
 
 	connect(ui.pushButtonMoveDown, &QPushButton::clicked, [this]() {
@@ -457,7 +74,6 @@ QIoTest::QIoTest(QWidget *parent)
 			mCurCategorys.remove(tItem->text());
 		}
 
-		_updateCurBoards();
 	});
 	
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
@@ -495,8 +111,7 @@ QIoTest::QIoTest(QWidget *parent)
 		{
 			ui.listWidgetUp->addItem(*it);			
 		}
-				
-		_updateCurBoards();
+			
 	});
 	
 	connect(ui.pushButtonEdit, &QPushButton::clicked, [this]() {
@@ -516,33 +131,7 @@ QIoTest::QIoTest(QWidget *parent)
 	});
 	
 	connect(ui.pushButtonSelfCheck, &QPushButton::clicked, [this]() {
-
-		_updateCurBoards();
-
-		//
-		for (size_t i = 0; i < mCurBoards.size(); i++)
-		{
-			int boardNo = mCurBoards[i];
-			if (!gpTcpClientVector[boardNo]->init())
-			{
-				gpSignal->showDialogSignal("", ipVector[boardNo][0] + ": connect error");
-
-				return;
-			}
-
-			//_initBoard(boardNo);
-
-			//
-			int tPin;
-			if (_findPin(boardNo, tPin))
-			{
-				gpSignal->showDialogSignal("", QString("board: %0   pin: %1  error").arg(boardNo).arg(tPin));
-
-				return;
-			}
-		}
-		
-
+		selfCheck();
 	});
 
 	connect(ui.pushButtonLockScreen, &QPushButton::clicked, [this]() {
@@ -577,13 +166,11 @@ QIoTest::QIoTest(QWidget *parent)
 		signalFindBegin();
 		tpDialog->exec();
 	});
-
 	
 	connect(ui.pushButtonPause, &QPushButton::clicked, [this]() {
 		mbPause = !mbPause;
 		mbPause ? ui.pushButtonPause->setText(QStringLiteral("¼ÌÐø")) : ui.pushButtonPause->setText(QStringLiteral("ÔÝÍ£"));
 	});
-	
 	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
 		mbExit = true;
 
@@ -593,7 +180,6 @@ QIoTest::QIoTest(QWidget *parent)
 			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 255, 255));
 		}
 	});
-
 	connect(ui.pushButtonStepTest, &QPushButton::clicked, [this]() {
 		
 		QList<QTableWidgetItem*>items = ui.tableWidget->selectedItems();
@@ -630,59 +216,21 @@ QIoTest::QIoTest(QWidget *parent)
 		}
 	});
 
-	connect(ui.pushButtonConnect, &QPushButton::clicked, [this]() {
-
-		if (gpModbusDevice->state() == QModbusDevice::State::ConnectedState)
-		{
-			return;
-		}
-
-		if (!gpModbusDevice->connectDevice())
-		{
-			statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString(), 5000);
-		}
-		
-	});
-	
-	connect(ui.pushButtonRead, &QPushButton::clicked, [this]() {
-
-		mValuse.clear();
-
-		for (size_t i = 0; i < 50; i++)
-		{
-			statusBar()->clearMessage();
-
-			if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 0 + 32 * i, 32), 40001))
-			{
-				if (!reply->isFinished())
-					connect(reply, &QModbusReply::finished, this, &QIoTest::readReady);
-				else
-					delete reply; // broadcast replies return immediately
-			}
-			else
-			{
-				statusBar()->showMessage(tr("Read error: ") + gpModbusDevice->errorString(), 5000);
-			}
-		}
-
-		
-	});
 	
 	//
 	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)), Qt::QueuedConnection);
-
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
-
 	connect(ui.pushButtonStart, &QPushButton::clicked, [this]() {
 
 		ui.pushButtonStart->setEnabled(false);
 		signalStartList();
 		ui.labelResult->clear();
 	});
-	
 	connect(this, SIGNAL(signalStartList()), this, SLOT(slotStartList()));
 
-	connect(this, SIGNAL(signalValueReady()), this, SLOT(slotValueReady()));
+
+	modbudConnectSources();
+
 }
 
 QIoTest::~QIoTest()
@@ -697,21 +245,12 @@ void QIoTest::slotFind(QString pin)
 
 void QIoTest::slotFindBegin()
 {
-	/*for (size_t i = 0; i < gpTcpClientVector.size(); i++)
-	{
-		if (!_initBoard(i))
-		{
-			QMessageBox::warning(this, "", QString("_initBoard: %0  failed").arg(i));
-			return;
-		}
-	}*/
-	
 	while (true)
 	{
 		int tPin;
 		for (size_t i = 0; i < gpTcpClientVector.size(); i++)
 		{
-			if (_findPin(i, tPin))
+			//if (_findPin(i, tPin))
 			{
 				signalFind(QString("%0").arg(tPin + 64 * i + 1));
 			}
@@ -721,55 +260,3 @@ void QIoTest::slotFindBegin()
 	}
 }
 
-void QIoTest::slotStartList()
-{
-	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
-	{
-		QApplication::processEvents();
-
-		if (mbExit)
-		{
-			mbExit = false;
-			break;
-		}
-
-		if (mbPause)
-		{
-			it--;
-			continue;
-		}
-
-		if (!mCurCategorys.contains(it->category))
-		{
-			it->bInlist = false;
-			continue;
-		}
-
-		if (!lineTest(*it))
-		{	
-
-		//	ui.labelResult->setText("NG");
-			ui.labelCoordinateL->setText(it->coordinateL);
-			ui.labelCoordinateR->setText(it->coordinateR);
-			ui.labelPinL->setText(it->pinL);
-			ui.labelPinR->setText(it->pinR);
-			ui.labelCategory->setText(it->category);
-
-			ui.tableWidget->item(it->rowNo, 0)->setText("NG");
-			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
-
-			if (QMessageBox::question(this, "", QStringLiteral("Ìø¹ý£¿")) != QMessageBox::Yes)
-			{
-				break;
-			}
-		}
-		else
-		{
-			ui.tableWidget->item(it->rowNo, 0)->setText("OK");
-			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
-		}
-			
-	}
-
-	ui.pushButtonStart->setEnabled(true);
-}
