@@ -40,11 +40,7 @@ QIoTest::QIoTest(QWidget *parent)
 	{
 		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
 	}
-	else
-	{
-		statusBar()->showMessage(tr("Connected"));
-	}
-
+	
 	connect(gpModbusDevice.get(), &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
 		statusBar()->showMessage(gpModbusDevice->errorString(), 5000);
 	});
@@ -176,8 +172,10 @@ QIoTest::QIoTest(QWidget *parent)
 
 		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 		{
-			ui.tableWidget->item(it->rowNo, 0)->setText("");
-			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 255, 255));
+			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "");
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 255, 255), 0);
+			/*ui.tableWidget->item(it->rowNo, 0)->setText("");
+			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 255, 255));*/
 		}
 	});
 	connect(ui.pushButtonStepTest, &QPushButton::clicked, [this]() {
@@ -204,15 +202,13 @@ QIoTest::QIoTest(QWidget *parent)
 
 		if (!lineTest(tItem))
 		{
-		//	ui.labelResult->setText("NG");
-			
-			ui.tableWidget->item(tItem.rowNo, 0)->setText("NG");
-			ui.tableWidget->item(tItem.rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
+			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "NG");
+			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
 		}
 		else
 		{
-			ui.tableWidget->item(tItem.rowNo, 0)->setText("OK");
-			ui.tableWidget->item(tItem.rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
+			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "OK");
+			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 255, 0), 0);
 		}
 	});
 
@@ -222,9 +218,9 @@ QIoTest::QIoTest(QWidget *parent)
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
 	connect(ui.pushButtonStart, &QPushButton::clicked, [this]() {
 
-		ui.pushButtonStart->setEnabled(false);
-		signalStartList();
-		ui.labelResult->clear();
+		mbExit = false;
+		pushButtonReadSlot();
+		
 	});
 	connect(this, SIGNAL(signalStartList()), this, SLOT(slotStartList()));
 

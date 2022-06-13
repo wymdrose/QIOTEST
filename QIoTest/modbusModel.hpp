@@ -73,6 +73,13 @@ void QIoTest::slotValuesReady()
 		auto val = mValuse[i];
 	}
 
+	updateTestTask();
+	updateModbusSets();
+
+	//
+	ui.pushButtonStart->setEnabled(false);
+	signalStartList();
+	ui.labelResult->clear();
 }
 
 void QIoTest::readReady()
@@ -105,35 +112,48 @@ void QIoTest::readReady()
 
 	reply->deleteLater();
 
+	//
+	if (++curReadIndex < ReadTimes)
+	{
+		signalReadRequset(curReadIndex);
+	}
+	
 	if (mValuse.length() >= ReadTimes * ReadOnceCount)
 	{
 		statusBar()->showMessage(tr("signalValuesReady."));
 		signalValuesReady();
 	}
+}
 
+void QIoTest::slotReadRequset(int i)
+{
+	if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 244 + ReadOnceCount * i, ReadOnceCount), 40001))
+	{
+		if (!reply->isFinished())
+		{
+			connect(reply, &QModbusReply::finished, this, &QIoTest::readReady);
+
+		}
+		else
+			delete reply; // broadcast replies return immediately
+	}
+	else
+	{
+		statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
+	}
 }
 
 void QIoTest::slotReadAll()
 {
 	mValuse.clear();
 
-	for (size_t i = 0; i < ReadTimes; i++)
-	{
-		Sleep(20);
-		statusBar()->clearMessage();
+	statusBar()->clearMessage();
 
-		if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 244 + ReadOnceCount * i, ReadOnceCount), 40001))
-		{
-			if (!reply->isFinished())
-				connect(reply, &QModbusReply::finished, this, &QIoTest::readReady);
-			else
-				delete reply; // broadcast replies return immediately
-		}
-		else
-		{
-			statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
-		}
-	}
+	curReadIndex = 0;
+	signalReadRequset(curReadIndex);
+
+	connect(this, SIGNAL(signalReadRequset(int)), this, SLOT(slotReadRequset(int)), Qt::UniqueConnection);
+	
 }
 
 void QIoTest::slotCheckModbus()
@@ -146,8 +166,15 @@ void QIoTest::slotCheckModbus()
 		{
 			if (reply->error() == QModbusDevice::NoError)
 			{
-				statusBar()->showMessage(tr("Check state ready."));
-				signalReadAll();
+				if (auto re = reply->result().value(0) > 0)
+				{
+					statusBar()->showMessage(tr("Check state ready."));
+					signalReadAll();
+				}
+				else
+				{
+					statusBar()->showMessage(tr("Check state failed."));
+				}
 			}
 			else if (reply->error() == QModbusDevice::ProtocolError)
 			{
@@ -197,6 +224,7 @@ void QIoTest::pushButtonReadSlot()
 				}
 				else if (reply->error() == QModbusDevice::NoError)
 				{
+					Sleep(1000);
 					signalCheckModbus();	//write success
 				}
 				reply->deleteLater();
@@ -226,6 +254,8 @@ void QIoTest::pushButtonConnectSlot()
 	{
 		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
 	}
+
+	gpModbusDevice->setTimeout(5000);
 }
 
 void QIoTest::modbudConnectSources()

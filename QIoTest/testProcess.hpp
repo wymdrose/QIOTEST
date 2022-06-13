@@ -106,10 +106,10 @@ void QIoTest::slotStartList()
 			ui.labelPinR->setText(it->pinR);
 			ui.labelCategory->setText(it->category);
 
-			ui.tableWidget->item(it->rowNo, 0)->setText("NG");
-			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(255, 0, 0));
-
-			if (QMessageBox::question(this, "", QStringLiteral("Ìø¹ý£¿")) != QMessageBox::Yes)
+			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
+		
+			if (QMessageBox::question(this, "", " ç»§ç»­ ?"/*QStringLiteral("ÃŒÃ¸Â¹Ã½Â£Â¿")*/) != QMessageBox::Yes)
 			{
 				break;
 			}

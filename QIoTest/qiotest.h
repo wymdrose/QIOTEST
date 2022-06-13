@@ -44,6 +44,7 @@ public slots:
 	void slotValuesReady();
 	void slotCheckModbus();
 	void slotReadAll();
+	void slotReadRequset(int);
 
 signals:
 	void signalStartList();
@@ -53,7 +54,8 @@ signals:
 	void signalCheckModbus();
 	void signalReadAll();
 	void signalValuesReady();
-	
+	void signalReadRequset(int);
+
 private:
 	Ui::QIoTestClass ui;
 	
@@ -82,6 +84,7 @@ private:
 	QVector<QSet<int>> modbusSets;
 	QVector<QSet<int>> testTaskSets;	//from csv
 	QVector<qint16> mValuse;	//read all from modbus
+	int curReadIndex = 0;
 };
 
 #endif // QIOTEST_H
