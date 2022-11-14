@@ -239,16 +239,92 @@ void QIoTest::slotFind(QString pin)
 	mFindPointLabel->setText("Find pin: " + pin);
 }
 
+void QIoTest::findPointReady()
+{
+	auto reply = qobject_cast<QModbusReply *>(sender());
+
+	if (!reply)
+	{
+		findRequest = true;
+		return;
+	}
+		
+
+	if (reply->error() == QModbusDevice::NoError)	//read success
+	{
+		const QModbusDataUnit unit = reply->result();
+		for (uint i = 0; i < unit.valueCount(); i++)
+		{
+			auto value = unit.value(i);
+
+			if (value != 0)
+			{
+				for (int j = 0; j < 32; j++)
+				{
+					if (value & 0x00000001)
+					{
+						signalFind(QString("%0").arg(512 * findIndex + 16 * i + j + 1));
+
+						reply->deleteLater();
+						findRequest = true;
+						return;
+					}
+						
+					value = value >> 1;
+				}
+			}
+
+			if (i == unit.valueCount() - 1)
+			{
+				signalFind(QString("%0").arg(""));
+			}
+		}
+	}
+	else if (reply->error() == QModbusDevice::ProtocolError)
+	{
+		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
+			arg(reply->errorString()).
+			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
+	}
+	else
+	{
+		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
+			arg(reply->errorString()).
+			arg(reply->error(), -1, 16), 5000);
+	}
+
+	reply->deleteLater();
+	findRequest = true;
+}
+
 void QIoTest::slotFindBegin()
 {
 	while (true)
 	{
-		int tPin;
-		for (size_t i = 0; i < gpTcpClientVector.size(); i++)
+		if (findIndex > 0)
 		{
-			//if (_findPin(i, tPin))
+			findIndex = 0;
+		}
+		else
+		{
+			findIndex = 1;
+		}
+
+		if (findRequest)
+		{
+			if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 164 + 32 * findIndex, 32), 40001))
 			{
-				signalFind(QString("%0").arg(tPin + 64 * i + 1));
+				if (!reply->isFinished())
+				{
+					connect(reply, &QModbusReply::finished, this, &QIoTest::findPointReady);
+					findRequest = false;
+				}
+				else
+					delete reply; // broadcast replies return immediately
+			}
+			else
+			{
+				statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
 			}
 		}
 
