@@ -231,7 +231,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 QIoTest::~QIoTest()
 {
-
+	
 }
 
 void QIoTest::slotFind(QString pin)
@@ -276,7 +276,7 @@ void QIoTest::findPointReady()
 
 			if (i == unit.valueCount() - 1)
 			{
-				signalFind(QString("%0").arg(""));
+				//signalFind(QString("%0").arg(""));
 			}
 		}
 	}
@@ -301,17 +301,17 @@ void QIoTest::slotFindBegin()
 {
 	while (true)
 	{
-		if (findIndex > 0)
-		{
-			findIndex = 0;
-		}
-		else
-		{
-			findIndex = 1;
-		}
-
 		if (findRequest)
 		{
+			if (findIndex > 0)
+			{
+				findIndex = 0;
+			}
+			else
+			{
+				findIndex = 1;
+			}
+
 			if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 164 + 32 * findIndex, 32), 40001))
 			{
 				if (!reply->isFinished())

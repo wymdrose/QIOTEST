@@ -1,7 +1,7 @@
 #include "qiotest.h"
 
-#define ReadTimes	    20
-#define ReadOnceCount	50
+#define ReadTimes	    32
+#define ReadOnceCount	32
 
 
 void QIoTest::updateSets(QVector<QSet<int>>& sets, int L, int R)
@@ -151,9 +151,6 @@ void QIoTest::slotReadAll()
 
 	curReadIndex = 0;
 	signalReadRequset(curReadIndex);
-
-	connect(this, SIGNAL(signalReadRequset(int)), this, SLOT(slotReadRequset(int)), Qt::UniqueConnection);
-	
 }
 
 void QIoTest::slotCheckModbus()
@@ -224,7 +221,7 @@ void QIoTest::pushButtonReadSlot()
 				}
 				else if (reply->error() == QModbusDevice::NoError)
 				{
-					Sleep(1000);
+					Sleep(2000);
 					signalCheckModbus();	//write success
 				}
 				reply->deleteLater();
@@ -271,4 +268,6 @@ void QIoTest::modbudConnectSources()
 	connect(this, SIGNAL(signalValuesReady()), this, SLOT(slotValuesReady()));
 	connect(this, SIGNAL(signalCheckModbus()), this, SLOT(slotCheckModbus()));
 	connect(this, SIGNAL(signalReadAll()), this, SLOT(slotReadAll()));
+
+	connect(this, SIGNAL(signalReadRequset(int)), this, SLOT(slotReadRequset(int)), Qt::UniqueConnection);
 }
