@@ -97,9 +97,12 @@ void QIoTest::slotStartList()
 			continue;
 		}
 
+		ui.tableWidget->selectRow(it->rowNo);
+		ui.tableWidget->setFocus();
+
 		if (!lineTest(*it))
 		{
-			//	ui.labelResult->setText("NG");
+			ui.labelResult->setText("NG");
 			ui.labelCoordinateL->setText(it->coordinateL);
 			ui.labelCoordinateR->setText(it->coordinateR);
 			ui.labelPinL->setText(it->pinL);
@@ -109,10 +112,8 @@ void QIoTest::slotStartList()
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
-			if (QMessageBox::question(this, "", " 继续 ?"/*QStringLiteral("Ìø¹ý£¿")*/) != QMessageBox::Yes)
-			{
+			//if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
 				break;
-			}
 		}
 		else
 		{
@@ -122,5 +123,6 @@ void QIoTest::slotStartList()
 
 	}
 
+	gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 	ui.pushButtonStart->setEnabled(true);
 }

@@ -1,8 +1,7 @@
-#include "qiotest.h"
+﻿#include "qiotest.h"
 
 #define ReadTimes	    32
 #define ReadOnceCount	32
-
 
 void QIoTest::updateSets(QVector<QSet<int>>& sets, int L, int R)
 {
@@ -78,6 +77,7 @@ void QIoTest::slotValuesReady()
 
 	//
 	ui.pushButtonStart->setEnabled(false);
+	
 	signalStartList();
 	ui.labelResult->clear();
 }
@@ -139,6 +139,8 @@ void QIoTest::slotReadRequset(int i)
 	}
 	else
 	{
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+		gpSignal->showDialogSignal("slotReadAll", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>Read error</font>"));
 		statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
 	}
 }
@@ -192,6 +194,8 @@ void QIoTest::slotCheckModbus()
 	}
 	else
 	{
+		gpSignal->showDialogSignal("slotCheckModbus", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>Read error</font>"));
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		statusBar()->showMessage(tr("slotCheckModbus Read error: ") + gpModbusDevice->errorString(), 5000);
 	}
 
@@ -235,6 +239,8 @@ void QIoTest::pushButtonReadSlot()
 	}
 	else
 	{
+		gpSignal->showDialogSignal("ReadSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		statusBar()->showMessage(tr("Write error: ") + gpModbusDevice->errorString(), 5000);
 	}
 }
@@ -243,12 +249,14 @@ void QIoTest::pushButtonConnectSlot()
 {
 	if (gpModbusDevice->state() == QModbusDevice::State::ConnectedState)
 	{
+		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:green;'>连接成功</font>"));
 		statusBar()->showMessage(tr("Connected"));
 		return;
 	}
 
 	if (!gpModbusDevice->connectDevice())
 	{
+		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
 		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
 	}
 

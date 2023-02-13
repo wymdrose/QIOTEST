@@ -25,6 +25,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 	gExePath = QCoreApplication::applicationDirPath();
 	
+	gpUi->tabWidget->setCurrentIndex(0);
 
 	//modbus init
 	gpModbusDevice = std::make_shared<QModbusTcpClient>(this);
@@ -169,6 +170,7 @@ QIoTest::QIoTest(QWidget *parent)
 	});
 	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
 		mbExit = true;
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 
 		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 		{
@@ -212,13 +214,22 @@ QIoTest::QIoTest(QWidget *parent)
 		}
 	});
 
-	
+	connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, [this](){
+		auto items = ui.tableWidget->selectedItems();
+		if (items.count > 7)
+		{
+			ui.labelPinL->setText(items[5]->text());
+			ui.labelPinR->setText(items[6]->text());
+		}
+		
+	});
 	//
 	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)), Qt::QueuedConnection);
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
 	connect(ui.pushButtonStart, &QPushButton::clicked, [this]() {
 
 		mbExit = false;
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:lightgreen}");
 		pushButtonReadSlot();
 		
 	});
