@@ -46,6 +46,11 @@ QIoTest::QIoTest(QWidget *parent)
 		statusBar()->showMessage(gpModbusDevice->errorString(), 5000);
 	});
 
+	// com init
+	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(1, 9600);
+	gpComClient->init();
+
+
 	
 	//
 	connect(ui.pushButtonMoveUp, &QPushButton::clicked, [this]()
@@ -216,7 +221,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 	connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, [this](){
 		auto items = ui.tableWidget->selectedItems();
-		if (items.count > 7)
+		if (items.count() > 7)
 		{
 			ui.labelPinL->setText(items[5]->text());
 			ui.labelPinR->setText(items[6]->text());

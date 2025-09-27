@@ -41,6 +41,7 @@ extern  std::shared_ptr<Drose::MySignalUi> gpSignal;
 extern  std::shared_ptr<Drose::Mytimer> gpMytimer;
 extern  std::vector<QStringList> ipVector;
 extern  std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;
+extern  std::shared_ptr<CommunicateClass::ComPortOne> gpComClient;
 extern  std::vector<Drose::WorkerThread*> gpIoThreadVector;
 extern  std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;
 extern  std::shared_ptr<QModbusClient> gpModbusDevice;
@@ -52,6 +53,7 @@ std::shared_ptr<Drose::MySignalUi> gpSignal;\
 std::shared_ptr<Drose::Mytimer> gpMytimer;\
 std::vector<QStringList> ipVector;\
 std::vector<CommunicateClass::TcpClient*> gpTcpClientVector;\
+std::shared_ptr<CommunicateClass::ComPortOne> gpComClient;\
 std::vector<Drose::WorkerThread*> gpIoThreadVector;\
 std::shared_ptr<DatabaseCover::MySqLite> gpDoSqlite;\
 std::shared_ptr<QModbusClient> gpModbusDevice;

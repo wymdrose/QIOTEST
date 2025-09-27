@@ -68,6 +68,7 @@ private:
 	void pushButtonConnectSlot();
 	void pushButtonReadSlot();
 	void modbudConnectSources();
+	void comConnectSources();
 	void updateSets(QVector<QSet<int>>& sets, int L, int R);
 	void updateModbusSets();
 	void updateTestTask();
