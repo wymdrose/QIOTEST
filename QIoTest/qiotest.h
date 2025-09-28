@@ -5,7 +5,7 @@
 #include "ui_qiotest.h"
 #include "global.h"
 #include <QList>
-
+#include <set>
 
 enum H_L
 {
@@ -40,12 +40,7 @@ public slots:
 	void slotFindBegin();
 	void slotFind(QString);
 
-	void readReady();
 	void slotValuesReady();
-	void slotCheckModbus();
-	void slotReadAll();
-	void slotReadRequset(int);
-
 	void findPointReady();
 
 signals:
@@ -53,12 +48,12 @@ signals:
 	void signalFindBegin();
 	void signalFind(QString);
 
-	void signalCheckModbus();
-	void signalReadAll();
 	void signalValuesReady();
-	void signalReadRequset(int);
 
-	
+
+private:
+	bool msgParse(bool bfirst = false);
+
 private:
 	Ui::QIoTestClass ui;
 	
@@ -87,8 +82,8 @@ private:
 
 	QVector<QSet<int>> modbusSets;
 	QVector<QSet<int>> testTaskSets;	//from csv
-	QVector<qint16> mValuse;	//read all from modbus
-	int curReadIndex = 0;
+	std::set<std::set<uint16_t>> com_pairs_;
+	bool parse_done_;
 
 	bool findRequest = true;
 	int findIndex = 0;

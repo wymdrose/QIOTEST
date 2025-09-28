@@ -1,8 +1,5 @@
 ﻿#include "qiotest.h"
 
-#define ReadTimes	    32
-#define ReadOnceCount	32
-
 void QIoTest::updateSets(QVector<QSet<int>>& sets, int L, int R)
 {
 	int index;
@@ -33,15 +30,17 @@ void QIoTest::updateModbusSets()
 {
 	modbusSets.clear();
 
-	for (size_t i = 0; i < mValuse.length(); i++)
+	for (const auto& item : com_pairs_)
 	{
-		if (mValuse[i] == 0)	//invoid
+		auto val_p = std::vector<uint16_t>(item.begin(), item.end());
+		if (val_p.size() < 2)
 		{
 			continue;
 		}
 
-		updateSets(modbusSets, i, mValuse[i]);
+		updateSets(modbusSets, val_p[0], val_p[1]);
 	}
+
 }
 
 void QIoTest::updateTestTask()
@@ -67,10 +66,6 @@ void QIoTest::updateTestTask()
 
 void QIoTest::slotValuesReady()
 {
-	for (size_t i = 0; i < mValuse.length(); i++)
-	{
-		auto val = mValuse[i];
-	}
 
 	updateTestTask();
 	updateModbusSets();
@@ -82,185 +77,109 @@ void QIoTest::slotValuesReady()
 	ui.labelResult->clear();
 }
 
-void QIoTest::readReady()
+
+bool QIoTest::msgParse(bool bfirst)
 {
-	auto reply = qobject_cast<QModbusReply *>(sender());
-
-	if (!reply)
-		return;
-
-	if (reply->error() == QModbusDevice::NoError)
-	{
-		const QModbusDataUnit unit = reply->result();
-		for (uint i = 0; i < unit.valueCount(); i++)
-		{
-			mValuse.append(unit.value(i));
-		}
-	}
-	else if (reply->error() == QModbusDevice::ProtocolError)
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-	}
-	else
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->error(), -1, 16), 5000);
-	}
-
-	reply->deleteLater();
-
-	//
-	if (++curReadIndex < ReadTimes)
-	{
-		signalReadRequset(curReadIndex);
-	}
-	
-	if (mValuse.length() >= ReadTimes * ReadOnceCount)
-	{
-		statusBar()->showMessage(tr("signalValuesReady."));
-		signalValuesReady();
-	}
-}
-
-void QIoTest::slotReadRequset(int i)
-{
-	if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 244 + ReadOnceCount * i, ReadOnceCount), 40001))
-	{
-		if (!reply->isFinished())
-		{
-			connect(reply, &QModbusReply::finished, this, &QIoTest::readReady);
-
-		}
-		else
-			delete reply; // broadcast replies return immediately
-	}
-	else
-	{
-		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
-		gpSignal->showDialogSignal("slotReadAll", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>Read error</font>"));
-		statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
-	}
-}
-
-void QIoTest::slotReadAll()
-{
-	mValuse.clear();
-
-	statusBar()->clearMessage();
-
-	curReadIndex = 0;
-	signalReadRequset(curReadIndex);
-}
-
-void QIoTest::slotCheckModbus()
-{
-
-	if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 1, 1), 40001))
-	{
-		if (!reply->isFinished())
-			connect(reply, &QModbusReply::finished, this, [this, reply]()
-		{
-			if (reply->error() == QModbusDevice::NoError)
-			{
-				if (auto re = reply->result().value(0) > 0)
-				{
-					statusBar()->showMessage(tr("Check state ready."));
-					signalReadAll();
-				}
-				else
-				{
-					statusBar()->showMessage(tr("Check state failed."));
-				}
-			}
-			else if (reply->error() == QModbusDevice::ProtocolError)
-			{
-				statusBar()->showMessage(tr("slotCheckModbus Read response error: %1 (Mobus exception: 0x%2)").
-					arg(reply->errorString()).
-					arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-			}
-			else
-			{
-				statusBar()->showMessage(tr("slotCheckModbus Read response error: %1 (code: 0x%2)").
-					arg(reply->errorString()).
-					arg(reply->error(), -1, 16), 5000);
-			}
-			reply->deleteLater();
-		});
-		else
-			reply->deleteLater();
-	}
-	else
-	{
-		gpSignal->showDialogSignal("slotCheckModbus", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>Read error</font>"));
-		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
-		statusBar()->showMessage(tr("slotCheckModbus Read error: ") + gpModbusDevice->errorString(), 5000);
-	}
-
-}
-
-
-void QIoTest::pushButtonReadSlot()
-{
-	auto writeUnit = QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 0, 1);
-	writeUnit.setValue(0, 1);
-	if (auto *reply = gpModbusDevice->sendWriteRequest(writeUnit, 40001))
-	{
-		if (!reply->isFinished())
-		{
-			connect(reply, &QModbusReply::finished, this, [this, reply]()
-			{
-				if (reply->error() == QModbusDevice::ProtocolError)
-				{
-					statusBar()->showMessage(tr("Write response error: %1 (Mobus exception: 0x%2)")
-						.arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16),
-						5000);
-				}
-				else if (reply->error() != QModbusDevice::NoError)
-				{
-					statusBar()->showMessage(tr("Write response error: %1 (code: 0x%2)").
-						arg(reply->errorString()).arg(reply->error(), -1, 16), 5000);
-				}
-				else if (reply->error() == QModbusDevice::NoError)
-				{
-					Sleep(2000);
-					signalCheckModbus();	//write success
-				}
-				reply->deleteLater();
-			});
-		}
-		else
-		{
-			// broadcast replies return immediately
-			reply->deleteLater();
-		}
-	}
-	else
+	auto cmd = bfirst ? "AA2700" : "AA2701";
+	QByteArray recv;
+	if (!gpComClient->communicate(cmd, recv))
 	{
 		gpSignal->showDialogSignal("ReadSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
-		statusBar()->showMessage(tr("Write error: ") + gpModbusDevice->errorString(), 5000);
+		statusBar()->showMessage(tr("Write error: "), 5000);
+		return false;
 	}
+
+	std::vector<uint8_t> msg(recv.begin(), recv.end());
+
+	if (msg.size() < 1)
+	{
+		statusBar()->showMessage(tr("error: msg.size() < 1"), 5000);
+		return false;
+	}
+
+	if (msg[0] != 0xDD || msg[0] != 0xDE)
+	{
+		statusBar()->showMessage(tr("error: msg[0]"), 5000);
+		return false;
+	}
+
+	if (msg.size() > 255)
+	{
+		statusBar()->showMessage(tr("error: msg.size() > 255"), 5000);
+		return false;
+	}
+
+	int index = 1;
+	while (index < msg.size())
+	{
+		int cnt = msg[index];
+
+		if (cnt == 0) // tail fill
+		{
+			break;
+		}
+
+		index++;
+		for (int i = 0; i < cnt - 1; i++)
+		{
+			uint16_t first = (((uint16_t)msg[index + i]) << 8) | msg[index + i + 1];
+			uint16_t second = (((uint16_t)msg[index + i + 2]) << 8) | msg[index + i + 3];
+			com_pairs_.insert({ first, second });
+		}
+		index += cnt * 2;
+	}
+
+	if (msg.size() < 255)
+	{
+		parse_done_ = true;
+		signalValuesReady();
+	}
+
+	return true;
+}
+
+void QIoTest::pushButtonReadSlot()
+{
+	com_pairs_.clear();
+	parse_done_ = false;
+
+	if (!msgParse(true))
+	{
+		gpSignal->showDialogSignal("ReadSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+		statusBar()->showMessage(tr("msgParse error: "), 5000);
+		return;
+	}
+	
+	for (size_t i = 0; i < 10; i++)
+	{
+		if (!msgParse())
+		{
+			return;
+		}
+
+		if (parse_done_)
+		{
+			break;
+		}
+	}
+
 }
 
 void QIoTest::pushButtonConnectSlot()
 {
-	if (gpModbusDevice->state() == QModbusDevice::State::ConnectedState)
+	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(gpUi->comboBox->currentIndex());
+	if (!gpComClient->init())
 	{
-		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:green;'>连接成功</font>"));
-		statusBar()->showMessage(tr("Connected"));
+		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
+		statusBar()->showMessage(tr("Connect failed: "));
 		return;
 	}
 
-	if (!gpModbusDevice->connectDevice())
-	{
-		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
-		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
-	}
-
-	gpModbusDevice->setTimeout(5000);
+	gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:green;'>连接成功</font>"));
+	statusBar()->showMessage(tr("Connected"));
+	return;
 }
 
 void QIoTest::modbudConnectSources()
@@ -274,8 +193,4 @@ void QIoTest::modbudConnectSources()
 	});
 
 	connect(this, SIGNAL(signalValuesReady()), this, SLOT(slotValuesReady()));
-	connect(this, SIGNAL(signalCheckModbus()), this, SLOT(slotCheckModbus()));
-	connect(this, SIGNAL(signalReadAll()), this, SLOT(slotReadAll()));
-
-	connect(this, SIGNAL(signalReadRequset(int)), this, SLOT(slotReadRequset(int)), Qt::UniqueConnection);
 }

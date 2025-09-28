@@ -27,27 +27,14 @@ QIoTest::QIoTest(QWidget *parent)
 	
 	gpUi->tabWidget->setCurrentIndex(0);
 
-	//modbus init
-	gpModbusDevice = std::make_shared<QModbusTcpClient>(this);
-
-	const QUrl url = QUrl::fromUserInput("192.168.1.55:502");
-	gpModbusDevice->setConnectionParameter(QModbusDevice::NetworkPortParameter, url.port());
-	gpModbusDevice->setConnectionParameter(QModbusDevice::NetworkAddressParameter, url.host());
-
-	gpModbusDevice->setTimeout(1000);
-	gpModbusDevice->setNumberOfRetries(3);
-
-	if (!gpModbusDevice->connectDevice())
+	// com init
+	for (size_t i = 0; i < 10; i++)
 	{
-		statusBar()->showMessage(tr("Connect failed: ") + gpModbusDevice->errorString());
+		gpUi->comboBox->addItem(QString("Com %0").arg(i));
 	}
 	
-	connect(gpModbusDevice.get(), &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-		statusBar()->showMessage(gpModbusDevice->errorString(), 5000);
-	});
 
-	// com init
-	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(1, 9600);
+	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(gpUi->comboBox->currentIndex());
 	gpComClient->init();
 
 

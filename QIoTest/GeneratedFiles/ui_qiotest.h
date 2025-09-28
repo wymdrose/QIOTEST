@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -50,6 +51,7 @@ public:
     QPushButton *pushButtonSave;
     QPushButton *pushButtonSelfCheck;
     QPushButton *pushButtonLockScreen;
+    QComboBox *comboBox;
     QPushButton *pushButtonConnect;
     QPushButton *pushButtonRead;
     QPushButton *pushButton_11;
@@ -174,6 +176,11 @@ public:
         pushButtonLockScreen->setObjectName(QStringLiteral("pushButtonLockScreen"));
 
         horizontalLayout->addWidget(pushButtonLockScreen);
+
+        comboBox = new QComboBox(groupBox);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+
+        horizontalLayout->addWidget(comboBox);
 
         pushButtonConnect = new QPushButton(groupBox);
         pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));

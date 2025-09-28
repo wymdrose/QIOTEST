@@ -50,7 +50,7 @@ bool QIoTest::checkPins(itemTest item)
 
 bool QIoTest::selfCheck()	//check value > index
 {
-	for (size_t i = 0; i < mValuse.length(); i++)
+	/*for (size_t i = 0; i < mValuse.length(); i++)
 	{
 		if (mValuse[i] != 0 && mValuse[i] < i + 1)
 		{
@@ -58,7 +58,7 @@ bool QIoTest::selfCheck()	//check value > index
 			return false;
 		}
 	}
-
+*/
 	return true;
 }
 
