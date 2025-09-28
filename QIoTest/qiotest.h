@@ -6,6 +6,8 @@
 #include "global.h"
 #include <QList>
 #include <set>
+#include <QTimer>
+#include <QEventLoop>
 
 enum H_L
 {
@@ -41,7 +43,6 @@ public slots:
 	void slotFind(QString);
 
 	void slotValuesReady();
-	void findPointReady();
 
 signals:
 	void signalStartList();
@@ -52,6 +53,12 @@ signals:
 
 
 private:
+	void _sleeploop(int ms){
+		QEventLoop loop;
+		QTimer::singleShot(ms, &loop, SLOT(quit()));
+		loop.exec();
+	}
+
 	bool msgParse(bool bfirst = false);
 
 private:
@@ -87,6 +94,8 @@ private:
 
 	bool findRequest = true;
 	int findIndex = 0;
+
+	QSettings settings{ "app.ini", QSettings::IniFormat };
 };
 
 #endif // QIOTEST_H

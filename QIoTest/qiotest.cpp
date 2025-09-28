@@ -32,14 +32,18 @@ QIoTest::QIoTest(QWidget *parent)
 	{
 		gpUi->comboBox->addItem(QString("Com %0").arg(i));
 	}
-	
-
-	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(gpUi->comboBox->currentIndex());
+	auto com = settings.value("com_port").toInt();
+	gpUi->comboBox->setCurrentIndex(com);
+	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(com);
 	gpComClient->init();
 
 
 	
 	//
+	connect(ui.comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this]{
+		settings.setValue("com_port", ui.comboBox->currentIndex());
+	});
+
 	connect(ui.pushButtonMoveUp, &QPushButton::clicked, [this]()
 	{
 		QModelIndexList indexes = ui.listWidgetDown->selectionModel()->selectedRows();
@@ -216,7 +220,7 @@ QIoTest::QIoTest(QWidget *parent)
 		
 	});
 	//
-	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(signalFind(QString)), this, SLOT(slotFind(QString)));
 	connect(this, SIGNAL(signalFindBegin()), this, SLOT(slotFindBegin()), Qt::QueuedConnection);
 	connect(ui.pushButtonStart, &QPushButton::clicked, [this]() {
 
@@ -242,96 +246,38 @@ void QIoTest::slotFind(QString pin)
 	mFindPointLabel->setText("Find pin: " + pin);
 }
 
-void QIoTest::findPointReady()
-{
-	auto reply = qobject_cast<QModbusReply *>(sender());
-
-	if (!reply)
-	{
-		findRequest = true;
-		return;
-	}
-		
-
-	if (reply->error() == QModbusDevice::NoError)	//read success
-	{
-		const QModbusDataUnit unit = reply->result();
-		for (uint i = 0; i < unit.valueCount(); i++)
-		{
-			auto value = unit.value(i);
-
-			if (value != 0)
-			{
-				for (int j = 0; j < 32; j++)
-				{
-					if (value & 0x00000001)
-					{
-						signalFind(QString("%0").arg(512 * findIndex + 16 * i + j + 1));
-
-						reply->deleteLater();
-						findRequest = true;
-						return;
-					}
-						
-					value = value >> 1;
-				}
-			}
-
-			if (i == unit.valueCount() - 1)
-			{
-				//signalFind(QString("%0").arg(""));
-			}
-		}
-	}
-	else if (reply->error() == QModbusDevice::ProtocolError)
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (Mobus exception: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-	}
-	else
-	{
-		statusBar()->showMessage(tr("Read response error: %1 (code: 0x%2)").
-			arg(reply->errorString()).
-			arg(reply->error(), -1, 16), 5000);
-	}
-
-	reply->deleteLater();
-	findRequest = true;
-}
-
 void QIoTest::slotFindBegin()
 {
 	while (true)
 	{
-		if (findRequest)
-		{
-			if (findIndex > 0)
-			{
-				findIndex = 0;
-			}
-			else
-			{
-				findIndex = 1;
-			}
+		_sleeploop(1000);
 
-			if (auto *reply = gpModbusDevice->sendReadRequest(QModbusDataUnit(QModbusDataUnit::RegisterType::HoldingRegisters, 164 + 32 * findIndex, 32), 40001))
-			{
-				if (!reply->isFinished())
-				{
-					connect(reply, &QModbusReply::finished, this, &QIoTest::findPointReady);
-					findRequest = false;
-				}
-				else
-					delete reply; // broadcast replies return immediately
-			}
-			else
-			{
-				statusBar()->showMessage(tr("slotReadAll error: ") + gpModbusDevice->errorString(), 5000);
-			}
+		QByteArray recv;
+		if (!gpComClient->communicate(QByteArray::fromHex("AA2800"), recv))
+		{
+			statusBar()->showMessage(tr("error: AA2800"), 5000);
+			continue;
 		}
 
-		QApplication::processEvents();
+		std::vector<uint8_t> msg(recv.begin(), recv.end());
+
+		if (msg.size() < 3)
+		{
+			statusBar()->showMessage(tr("error: msg.size() < 3"), 5000);
+			continue;
+		}
+
+		if (msg[0] != 0xDE)
+		{
+			statusBar()->showMessage(tr("error: msg[0]"), 5000);
+			continue;
+		}
+
+		auto pin = (((uint16_t)msg[1]) << 8) | msg[2];
+
+		signalFind(QString("%0").arg(pin));
+		
+		
 	}
 }
 
