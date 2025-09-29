@@ -38,7 +38,7 @@ void QIoTest::updateModbusSets()
 			continue;
 		}
 
-		updateSets(modbusSets, val_p[0], val_p[1]);
+		updateSets(modbusSets, val_p[0] + 1, val_p[1] + 1);
 	}
 
 }
@@ -83,16 +83,18 @@ bool QIoTest::msgParse(bool bfirst)
 	auto cmd = bfirst ? QByteArray::fromHex("AA2700") : QByteArray::fromHex("AA2701");
 
 	QByteArray recv;
+	Dologs::outlog(cmd.toHex());
 	if (!gpComClient->communicate(cmd, recv))
 	{
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		statusBar()->showMessage(tr("Write error: "), 5000);
 		return false;
 	}
+	Dologs::outlog(recv.toHex());
 
 	std::vector<uint8_t> msg(recv.begin(), recv.end());
 
-	if (msg.size() < 1)
+	if (msg.size() < 6)
 	{
 		statusBar()->showMessage(tr("error: msg.size() < 1"), 5000);
 		return false;
@@ -133,7 +135,6 @@ bool QIoTest::msgParse(bool bfirst)
 	if (msg.size() < 255)
 	{
 		parse_done_ = true;
-		signalValuesReady();
 	}
 
 	return true;
@@ -150,6 +151,8 @@ void QIoTest::pushButtonReadSlot()
 	{
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		statusBar()->showMessage(tr("msgParse error: "), 5000);
+		gpSignal->showDialogSignal("ConnectSlot", 
+			QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>测试失败</font>"));
 		return;
 	}
 
@@ -157,11 +160,16 @@ void QIoTest::pushButtonReadSlot()
 	{
 		if (parse_done_)
 		{
+			signalValuesReady();
 			break;
 		}
 
 		if (!msgParse())
 		{
+			gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+			statusBar()->showMessage(tr("msgParse error: "), 5000);
+			gpSignal->showDialogSignal("ConnectSlot", 
+				QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>测试失败</font>"));
 			return;
 		}
 	}

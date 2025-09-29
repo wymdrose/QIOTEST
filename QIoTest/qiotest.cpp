@@ -226,6 +226,13 @@ QIoTest::QIoTest(QWidget *parent)
 
 		mbExit = false;
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:lightgreen}");
+
+		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+		{
+			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "");
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 255, 255), 0);
+		}
+
 		pushButtonReadSlot();
 		
 	});

@@ -48,17 +48,19 @@ bool QIoTest::checkPins(itemTest item)
 	return true;
 }
 
-bool QIoTest::selfCheck()	//check value > index
+bool QIoTest::selfCheck()
 {
-	/*for (size_t i = 0; i < mValuse.length(); i++)
+
+	for (const auto& item : com_pairs_)
 	{
-		if (mValuse[i] != 0 && mValuse[i] < i + 1)
+		auto val_p = std::vector<uint16_t>(item.begin(), item.end());
+		if (val_p.size() != 2)
 		{
-			qDebug() << QString("error: %0 and %1").arg(i + 1).arg(mValuse[i]) << "\r";
+			qDebug() << QString("error: val_p.size()") << "\r";
 			return false;
 		}
 	}
-*/
+
 	return true;
 }
 
@@ -75,6 +77,14 @@ bool QIoTest::lineTest(itemTest item)
 
 void QIoTest::slotStartList()
 {
+	if (mListTest.size() < 1)
+	{
+		QMessageBox::information(this, "", "请先加载测试档案！");
+		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+		ui.pushButtonStart->setEnabled(true);
+		return;
+	}
+
 	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 	{
 		QApplication::processEvents();
@@ -112,8 +122,8 @@ void QIoTest::slotStartList()
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
-			//if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
-				break;
+			/*if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
+				break;*/
 		}
 		else
 		{
