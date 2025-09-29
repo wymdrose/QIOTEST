@@ -167,6 +167,7 @@ QIoTest::QIoTest(QWidget *parent)
 	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
 		mbExit = true;
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+		ui.labelResult->clear();
 
 		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 		{

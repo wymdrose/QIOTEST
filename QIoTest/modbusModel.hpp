@@ -74,7 +74,7 @@ void QIoTest::slotValuesReady()
 	ui.pushButtonStart->setEnabled(false);
 	
 	signalStartList();
-	ui.labelResult->clear();
+	
 }
 
 
@@ -181,11 +181,13 @@ void QIoTest::pushButtonConnectSlot()
 	gpComClient = std::make_shared<CommunicateClass::ComPortOne>(gpUi->comboBox->currentIndex());
 	if (!gpComClient->init())
 	{
-		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));
+		gpSignal->colorSignal(gpUi->pushButtonConnect, "QPushButton{background:red}");
+		gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:red;'>连接失败</font>"));	
 		statusBar()->showMessage(tr("Connect failed: "));
 		return;
 	}
 
+	gpSignal->colorSignal(gpUi->pushButtonConnect, "QPushButton{background:lightgreen}");
 	gpSignal->showDialogSignal("ConnectSlot", QStringLiteral("<font style='font-size:50px; background-color:white; color:green;'>连接成功</font>"));
 	statusBar()->showMessage(tr("Connected"));
 	return;

@@ -77,6 +77,7 @@ bool QIoTest::lineTest(itemTest item)
 
 void QIoTest::slotStartList()
 {
+	ui.labelResult->clear();
 	if (mListTest.size() < 1)
 	{
 		QMessageBox::information(this, "", "请先加载测试档案！");
@@ -84,6 +85,8 @@ void QIoTest::slotStartList()
 		ui.pushButtonStart->setEnabled(true);
 		return;
 	}
+
+	bool result = true;
 
 	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 	{
@@ -112,7 +115,7 @@ void QIoTest::slotStartList()
 
 		if (!lineTest(*it))
 		{
-			ui.labelResult->setText("NG");
+			result = false;
 			ui.labelCoordinateL->setText(it->coordinateL);
 			ui.labelCoordinateR->setText(it->coordinateR);
 			ui.labelPinL->setText(it->pinL);
@@ -130,7 +133,15 @@ void QIoTest::slotStartList()
 			ui.tableWidget->item(it->rowNo, 0)->setText("OK");
 			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
 		}
+	}
 
+	if (!result)
+	{
+		ui.labelResult->setText(QStringLiteral("<font style='font-size:50px; color:red;'>NG</font>"));
+	}
+	else
+	{
+		ui.labelResult->setText(QStringLiteral("<font style='font-size:50px; color:green;'>OK</font>"));
 	}
 
 	gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
