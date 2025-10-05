@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1349</width>
-    <height>809</height>
+    <width>1236</width>
+    <height>784</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,11 +31,24 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>登陆账号:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_login"/>
+             </item>
+             <item>
               <widget class="QPushButton" name="pushButtonOpenFile">
                <property name="text">
                 <string>打开文件</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_path"/>
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonFindpoint">
@@ -481,7 +494,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1349</width>
+     <width>1236</width>
      <height>26</height>
     </rect>
    </property>

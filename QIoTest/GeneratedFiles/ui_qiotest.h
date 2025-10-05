@@ -45,7 +45,10 @@ public:
     QGridLayout *gridLayout_10;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QLineEdit *lineEdit_login;
     QPushButton *pushButtonOpenFile;
+    QLineEdit *lineEdit_path;
     QPushButton *pushButtonFindpoint;
     QPushButton *pushButtonEdit;
     QPushButton *pushButtonSave;
@@ -117,7 +120,7 @@ public:
     {
         if (QIoTestClass->objectName().isEmpty())
             QIoTestClass->setObjectName(QStringLiteral("QIoTestClass"));
-        QIoTestClass->resize(1349, 809);
+        QIoTestClass->resize(1236, 784);
         centralWidget = new QWidget(QIoTestClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_11 = new QGridLayout(centralWidget);
@@ -145,10 +148,25 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label = new QLabel(groupBox);
+        label->setObjectName(QStringLiteral("label"));
+
+        horizontalLayout->addWidget(label);
+
+        lineEdit_login = new QLineEdit(groupBox);
+        lineEdit_login->setObjectName(QStringLiteral("lineEdit_login"));
+
+        horizontalLayout->addWidget(lineEdit_login);
+
         pushButtonOpenFile = new QPushButton(groupBox);
         pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
 
         horizontalLayout->addWidget(pushButtonOpenFile);
+
+        lineEdit_path = new QLineEdit(groupBox);
+        lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
+
+        horizontalLayout->addWidget(lineEdit_path);
 
         pushButtonFindpoint = new QPushButton(groupBox);
         pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
@@ -505,7 +523,7 @@ public:
         QIoTestClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(QIoTestClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1349, 26));
+        menuBar->setGeometry(QRect(0, 0, 1236, 26));
         QIoTestClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(QIoTestClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -526,6 +544,7 @@ public:
     {
         QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest V3.0.1", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("QIoTestClass", "\347\252\227\345\217\243\345\212\237\350\203\275\345\214\272", Q_NULLPTR));
+        label->setText(QApplication::translate("QIoTestClass", "\347\231\273\351\231\206\350\264\246\345\217\267:", Q_NULLPTR));
         pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
         pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));
         pushButtonEdit->setText(QApplication::translate("QIoTestClass", "\344\277\256\346\224\271on/off", Q_NULLPTR));

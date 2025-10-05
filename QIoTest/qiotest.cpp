@@ -73,10 +73,13 @@ QIoTest::QIoTest(QWidget *parent)
 	
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
 		
-		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("µµ°¸"), gExePath + "/cfg/", "*.xlsx");
+		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件¸"), 
+			gExePath + "/cfg/", QString("*%0*.xlsx").arg(ui.lineEdit_login->text()));
 
 		if (mFilePath.isEmpty())
 			return;		
+
+		ui.lineEdit_path->setText(mFilePath);
 
 		FileIo::xlsxFile file;
 		file.readExcel(mFilePath, ui.tableWidget);
