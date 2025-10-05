@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 	QIoTest* w = new QIoTest();
 	w->show();
-	
+
 	gpDoSqlite = std::make_shared<DatabaseCover::MySqLite>("dosqlite");
 	Dologs::outlog("begin......");
 	gpDoSqlite->open();

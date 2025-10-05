@@ -1,4 +1,4 @@
-#include "qiotest.h"
+﻿#include "qiotest.h"
 #include <ActiveQt/QAxWidget>
 #include <QModelIndex>
 #include <QModelIndexList>
@@ -18,6 +18,8 @@ QIoTest::QIoTest(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.2  东莞精伟智能"));
 
 	gpUi = &ui;
 	
@@ -71,7 +73,7 @@ QIoTest::QIoTest(QWidget *parent)
 	
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
 		
-		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("����"), gExePath + "/cfg/", "*.xlsx");
+		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("µµ°¸"), gExePath + "/cfg/", "*.xlsx");
 
 		if (mFilePath.isEmpty())
 			return;		
@@ -162,7 +164,7 @@ QIoTest::QIoTest(QWidget *parent)
 	
 	connect(ui.pushButtonPause, &QPushButton::clicked, [this]() {
 		mbPause = !mbPause;
-		mbPause ? ui.pushButtonPause->setText(QStringLiteral("����")) : ui.pushButtonPause->setText(QStringLiteral("��ͣ"));
+		mbPause ? ui.pushButtonPause->setText(QStringLiteral("¼ÌÐø")) : ui.pushButtonPause->setText(QStringLiteral("ÔÝÍ£"));
 	});
 	connect(ui.pushButtonExit, &QPushButton::clicked, [this]() {
 		mbExit = true;

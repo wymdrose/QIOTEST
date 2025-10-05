@@ -38,7 +38,10 @@ void QIoTest::updateModbusSets()
 			continue;
 		}
 
-		updateSets(modbusSets, val_p[0] + 1, val_p[1] + 1);
+		uint16_t a = (val_p[0] / 64) * 64 + (64 - val_p[0] % 64);
+		uint16_t b = (val_p[1] / 64) * 64 + (64 - val_p[1] % 64);
+
+		updateSets(modbusSets, a, b);
 	}
 
 }

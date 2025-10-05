@@ -125,8 +125,8 @@ void QIoTest::slotStartList()
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
-			/*if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
-				break;*/
+			if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
+				break;
 		}
 		else
 		{
