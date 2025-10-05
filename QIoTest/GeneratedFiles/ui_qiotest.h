@@ -109,6 +109,8 @@ public:
     QHBoxLayout *horizontalLayout_7;
     QPushButton *pushButtonMoveUp;
     QPushButton *pushButtonMoveDown;
+    QPushButton *pushButtonMoveUp_a;
+    QPushButton *pushButtonMoveDown_a;
     QGroupBox *groupBox_8;
     QGridLayout *gridLayout_3;
     QListWidget *listWidgetDown;
@@ -485,6 +487,18 @@ public:
 
         horizontalLayout_7->addWidget(pushButtonMoveDown);
 
+        pushButtonMoveUp_a = new QPushButton(groupBox_9);
+        pushButtonMoveUp_a->setObjectName(QStringLiteral("pushButtonMoveUp_a"));
+        pushButtonMoveUp_a->setLayoutDirection(Qt::LeftToRight);
+
+        horizontalLayout_7->addWidget(pushButtonMoveUp_a);
+
+        pushButtonMoveDown_a = new QPushButton(groupBox_9);
+        pushButtonMoveDown_a->setObjectName(QStringLiteral("pushButtonMoveDown_a"));
+        pushButtonMoveDown_a->setLayoutDirection(Qt::LeftToRight);
+
+        horizontalLayout_7->addWidget(pushButtonMoveDown_a);
+
 
         verticalLayout_3->addLayout(horizontalLayout_7);
 
@@ -579,6 +593,10 @@ public:
         pushButtonMoveUp->setText(QApplication::translate("QIoTestClass", "/\\ \n"
 "|", Q_NULLPTR));
         pushButtonMoveDown->setText(QApplication::translate("QIoTestClass", "|\n"
+"\\/", Q_NULLPTR));
+        pushButtonMoveUp_a->setText(QApplication::translate("QIoTestClass", "/\\\n"
+"||", Q_NULLPTR));
+        pushButtonMoveDown_a->setText(QApplication::translate("QIoTestClass", "||\n"
 "\\/", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("QIoTestClass", "\346\241\243\346\241\210\345\233\276\345\217\267", Q_NULLPTR));
     } // retranslateUi

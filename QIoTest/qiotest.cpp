@@ -71,6 +71,28 @@ QIoTest::QIoTest(QWidget *parent)
 
 	});
 	
+	connect(ui.pushButtonMoveUp_a, &QPushButton::clicked, [this]()
+	{
+		while (ui.listWidgetDown->count() > 0)
+		{
+			auto tItem = ui.listWidgetDown->takeItem(0);
+			ui.listWidgetUp->addItem(tItem);
+			mCurCategorys.insert(tItem->text());
+		}
+
+	});
+
+	connect(ui.pushButtonMoveDown_a, &QPushButton::clicked, [this]() {
+		
+		while (ui.listWidgetUp->count() > 0)
+		{
+			auto tItem = ui.listWidgetUp->takeItem(0);
+			ui.listWidgetDown->addItem(tItem);
+			mCurCategorys.remove(tItem->text());
+		}
+	});
+
+
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
 		
 		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件¸"), 
