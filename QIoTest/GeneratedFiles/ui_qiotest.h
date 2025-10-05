@@ -524,7 +524,7 @@ public:
 
     void retranslateUi(QMainWindow *QIoTestClass)
     {
-        QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest V3.0.0", Q_NULLPTR));
+        QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest V3.0.1", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("QIoTestClass", "\347\252\227\345\217\243\345\212\237\350\203\275\345\214\272", Q_NULLPTR));
         pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
         pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));

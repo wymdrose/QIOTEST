@@ -106,7 +106,7 @@ bool QIoTest::msgParse(bool bfirst)
 		return false;
 	}
 
-	if (msg.size() > 255)
+	if (msg.size() > 256)
 	{
 		statusBar()->showMessage(tr("error: msg.size() > 255"), 5000);
 		return false;
