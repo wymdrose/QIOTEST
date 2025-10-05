@@ -20,7 +20,7 @@ QIoTest::QIoTest(QWidget *parent)
 	ui.setupUi(this);
 
 	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.2  东莞精伟智能"));
-
+	
 	gpUi = &ui;
 	
 	gpSignal = std::make_shared<Drose::MySignalUi>();

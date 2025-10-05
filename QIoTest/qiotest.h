@@ -96,6 +96,7 @@ private:
 	int findIndex = 0;
 
 	QSettings settings{ "app.ini", QSettings::IniFormat };
+	QString lineMsg_;
 };
 
 #endif // QIOTEST_H

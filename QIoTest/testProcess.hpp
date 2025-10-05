@@ -11,6 +11,12 @@ bool QIoTest::checkShort(QSet<int> item, int L, int R)
 
 			if (!set.contains(item))	//modbus set > test set
 			{
+				lineMsg_ = QStringLiteral("短路:%0-%1").arg(L).arg(R);
+				for (const auto& pin : item)
+				{
+					lineMsg_ += QString(",%0").arg(pin);
+				}
+
 				return false;	//short
 			}
 		}
@@ -21,6 +27,8 @@ bool QIoTest::checkShort(QSet<int> item, int L, int R)
 
 bool QIoTest::checkPins(itemTest item)
 {
+	lineMsg_.clear();
+
 	int L = item.pinL.toInt();
 	int R = item.pinR.toInt();
 
@@ -42,6 +50,7 @@ bool QIoTest::checkPins(itemTest item)
 
 	if (index >= modbusSets.length())
 	{
+		lineMsg_ = QString("NG: %0 - %1").arg(L).arg(R);
 		return false;	//disconnect
 	}
 
@@ -125,6 +134,7 @@ void QIoTest::slotStartList()
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
+			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 			if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
 				break;
 		}
@@ -135,13 +145,9 @@ void QIoTest::slotStartList()
 		}
 	}
 
-	if (!result)
+	if (result)
 	{
-		ui.labelResult->setText(QStringLiteral("<font style='font-size:50px; color:red;'>NG</font>"));
-	}
-	else
-	{
-		ui.labelResult->setText(QStringLiteral("<font style='font-size:50px; color:green;'>OK</font>"));
+		ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK</font>"));
 	}
 
 	gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
