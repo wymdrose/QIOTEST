@@ -323,7 +323,9 @@ void QIoTest::slotFindBegin()
 
 		auto pin = (((uint16_t)msg[1]) << 8) | msg[2];
 
-		signalFind(QString("%0").arg(pin));
+		uint16_t pin_s = (pin / 64) * 64 + (64 - pin % 64);
+
+		signalFind(QString("%0").arg(pin_s));
 		
 		
 	}
