@@ -180,6 +180,7 @@ QIoTest::QIoTest(QWidget *parent)
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 		QDialog* tpDialog = new QDialog();
 
+		mbExit = false;
 		connect(tpDialog, &QDialog::finished, [this]
 		{
 			mbExit = true;
@@ -326,13 +327,16 @@ void QIoTest::slotFindBegin()
 			continue;
 		}
 
-		auto pin = (((uint16_t)msg[1]) << 8) | msg[2];
+		QStringList v_pins;
 
-		uint16_t pin_s = (pin / 64) * 64 + (64 - pin % 64);
+		for (size_t i = 1; i < msg.size(); i+=2)
+		{
+			auto pin = (((uint16_t)msg[i]) << 8) | msg[i+1];
+			uint16_t pin_s = (pin / 64) * 64 + (64 - pin % 64);
+			v_pins.append(QString("%0").arg(pin_s));
+		}
 
-		signalFind(QString("%0").arg(pin_s));
-		
-		
+		signalFind(v_pins.join(","));
 	}
 }
 
