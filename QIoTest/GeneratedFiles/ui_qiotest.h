@@ -43,25 +43,12 @@ public:
     QGridLayout *gridLayout;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_10;
-    QVBoxLayout *verticalLayout_6;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QLineEdit *lineEdit_login;
-    QPushButton *pushButtonOpenFile;
-    QLineEdit *lineEdit_path;
-    QPushButton *pushButtonFindpoint;
-    QPushButton *pushButtonEdit;
-    QPushButton *pushButtonSave;
-    QPushButton *pushButtonSelfCheck;
-    QPushButton *pushButtonLockScreen;
-    QComboBox *comboBox;
-    QPushButton *pushButtonConnect;
-    QPushButton *pushButtonRead;
-    QPushButton *pushButton_11;
-    QHBoxLayout *horizontalLayout_8;
+    QGridLayout *gridLayout_18;
+    QGridLayout *gridLayout_14;
     QGroupBox *groupBox_2;
+    QGridLayout *gridLayout_19;
+    QGridLayout *gridLayout_16;
     QGridLayout *gridLayout_8;
-    QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *verticalLayout_2;
     QGroupBox *groupBox_4;
@@ -100,20 +87,32 @@ public:
     QWidget *tab_2;
     QGridLayout *gridLayout_13;
     QTableWidget *tableWidgetNg;
-    QGroupBox *groupBox_9;
+    QGridLayout *gridLayout_15;
     QGridLayout *gridLayout_9;
-    QVBoxLayout *verticalLayout_3;
-    QGroupBox *groupBox_3;
-    QGridLayout *gridLayout_2;
-    QListWidget *listWidgetUp;
-    QHBoxLayout *horizontalLayout_7;
     QPushButton *pushButtonMoveUp;
     QPushButton *pushButtonMoveDown;
     QPushButton *pushButtonMoveUp_a;
     QPushButton *pushButtonMoveDown_a;
+    QGroupBox *groupBox_3;
+    QGridLayout *gridLayout_2;
+    QListWidget *listWidgetUp;
     QGroupBox *groupBox_8;
     QGridLayout *gridLayout_3;
     QListWidget *listWidgetDown;
+    QGridLayout *gridLayout_17;
+    QLabel *label;
+    QLineEdit *lineEdit_login;
+    QPushButton *pushButtonOpenFile;
+    QLineEdit *lineEdit_path;
+    QPushButton *pushButtonFindpoint;
+    QPushButton *pushButtonEdit;
+    QPushButton *pushButtonSave;
+    QPushButton *pushButtonSelfCheck;
+    QPushButton *pushButtonLockScreen;
+    QComboBox *comboBox;
+    QPushButton *pushButtonConnect;
+    QPushButton *pushButtonRead;
+    QPushButton *pushButton_11;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -144,95 +143,24 @@ public:
         gridLayout_10->setSpacing(6);
         gridLayout_10->setContentsMargins(11, 11, 11, 11);
         gridLayout_10->setObjectName(QStringLiteral("gridLayout_10"));
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setSpacing(6);
-        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        label = new QLabel(groupBox);
-        label->setObjectName(QStringLiteral("label"));
-
-        horizontalLayout->addWidget(label);
-
-        lineEdit_login = new QLineEdit(groupBox);
-        lineEdit_login->setObjectName(QStringLiteral("lineEdit_login"));
-
-        horizontalLayout->addWidget(lineEdit_login);
-
-        pushButtonOpenFile = new QPushButton(groupBox);
-        pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
-
-        horizontalLayout->addWidget(pushButtonOpenFile);
-
-        lineEdit_path = new QLineEdit(groupBox);
-        lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
-
-        horizontalLayout->addWidget(lineEdit_path);
-
-        pushButtonFindpoint = new QPushButton(groupBox);
-        pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
-
-        horizontalLayout->addWidget(pushButtonFindpoint);
-
-        pushButtonEdit = new QPushButton(groupBox);
-        pushButtonEdit->setObjectName(QStringLiteral("pushButtonEdit"));
-        pushButtonEdit->setEnabled(false);
-
-        horizontalLayout->addWidget(pushButtonEdit);
-
-        pushButtonSave = new QPushButton(groupBox);
-        pushButtonSave->setObjectName(QStringLiteral("pushButtonSave"));
-        pushButtonSave->setEnabled(false);
-
-        horizontalLayout->addWidget(pushButtonSave);
-
-        pushButtonSelfCheck = new QPushButton(groupBox);
-        pushButtonSelfCheck->setObjectName(QStringLiteral("pushButtonSelfCheck"));
-
-        horizontalLayout->addWidget(pushButtonSelfCheck);
-
-        pushButtonLockScreen = new QPushButton(groupBox);
-        pushButtonLockScreen->setObjectName(QStringLiteral("pushButtonLockScreen"));
-
-        horizontalLayout->addWidget(pushButtonLockScreen);
-
-        comboBox = new QComboBox(groupBox);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-
-        horizontalLayout->addWidget(comboBox);
-
-        pushButtonConnect = new QPushButton(groupBox);
-        pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));
-
-        horizontalLayout->addWidget(pushButtonConnect);
-
-        pushButtonRead = new QPushButton(groupBox);
-        pushButtonRead->setObjectName(QStringLiteral("pushButtonRead"));
-
-        horizontalLayout->addWidget(pushButtonRead);
-
-        pushButton_11 = new QPushButton(groupBox);
-        pushButton_11->setObjectName(QStringLiteral("pushButton_11"));
-        pushButton_11->setEnabled(false);
-
-        horizontalLayout->addWidget(pushButton_11);
-
-
-        verticalLayout_6->addLayout(horizontalLayout);
-
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(6);
-        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        gridLayout_18 = new QGridLayout();
+        gridLayout_18->setSpacing(6);
+        gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
+        gridLayout_14 = new QGridLayout();
+        gridLayout_14->setSpacing(6);
+        gridLayout_14->setObjectName(QStringLiteral("gridLayout_14"));
         groupBox_2 = new QGroupBox(groupBox);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        gridLayout_8 = new QGridLayout(groupBox_2);
+        gridLayout_19 = new QGridLayout(groupBox_2);
+        gridLayout_19->setSpacing(6);
+        gridLayout_19->setContentsMargins(11, 11, 11, 11);
+        gridLayout_19->setObjectName(QStringLiteral("gridLayout_19"));
+        gridLayout_16 = new QGridLayout();
+        gridLayout_16->setSpacing(6);
+        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
+        gridLayout_8 = new QGridLayout();
         gridLayout_8->setSpacing(6);
-        gridLayout_8->setContentsMargins(11, 11, 11, 11);
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
@@ -379,7 +307,7 @@ public:
         horizontalLayout_6->addLayout(verticalLayout);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_6);
+        gridLayout_8->addLayout(horizontalLayout_6, 0, 0, 1, 1);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
@@ -409,7 +337,10 @@ public:
         horizontalLayout_5->addWidget(pushButton_18);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_5);
+        gridLayout_8->addLayout(horizontalLayout_5, 1, 0, 1, 1);
+
+
+        gridLayout_16->addLayout(gridLayout_8, 0, 0, 1, 1);
 
         tabWidget = new QTabWidget(groupBox_2);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
@@ -440,25 +371,50 @@ public:
 
         tabWidget->addTab(tab_2, QString());
 
-        verticalLayout_5->addWidget(tabWidget);
+        gridLayout_16->addWidget(tabWidget, 1, 0, 1, 1);
+
+        gridLayout_16->setRowStretch(0, 4);
+        gridLayout_16->setRowStretch(1, 6);
+
+        gridLayout_19->addLayout(gridLayout_16, 0, 0, 1, 1);
 
 
-        gridLayout_8->addLayout(verticalLayout_5, 0, 0, 1, 1);
+        gridLayout_14->addWidget(groupBox_2, 0, 0, 1, 1);
 
-
-        horizontalLayout_8->addWidget(groupBox_2);
-
-        groupBox_9 = new QGroupBox(groupBox);
-        groupBox_9->setObjectName(QStringLiteral("groupBox_9"));
-        gridLayout_9 = new QGridLayout(groupBox_9);
+        gridLayout_15 = new QGridLayout();
+        gridLayout_15->setSpacing(6);
+        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
+        gridLayout_9 = new QGridLayout();
         gridLayout_9->setSpacing(6);
-        gridLayout_9->setContentsMargins(11, 11, 11, 11);
         gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
-        gridLayout_9->setSizeConstraint(QLayout::SetFixedSize);
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        groupBox_3 = new QGroupBox(groupBox_9);
+        pushButtonMoveUp = new QPushButton(groupBox);
+        pushButtonMoveUp->setObjectName(QStringLiteral("pushButtonMoveUp"));
+        pushButtonMoveUp->setLayoutDirection(Qt::LeftToRight);
+
+        gridLayout_9->addWidget(pushButtonMoveUp, 0, 0, 1, 1);
+
+        pushButtonMoveDown = new QPushButton(groupBox);
+        pushButtonMoveDown->setObjectName(QStringLiteral("pushButtonMoveDown"));
+        pushButtonMoveDown->setLayoutDirection(Qt::LeftToRight);
+
+        gridLayout_9->addWidget(pushButtonMoveDown, 0, 1, 1, 1);
+
+        pushButtonMoveUp_a = new QPushButton(groupBox);
+        pushButtonMoveUp_a->setObjectName(QStringLiteral("pushButtonMoveUp_a"));
+        pushButtonMoveUp_a->setLayoutDirection(Qt::LeftToRight);
+
+        gridLayout_9->addWidget(pushButtonMoveUp_a, 0, 2, 1, 1);
+
+        pushButtonMoveDown_a = new QPushButton(groupBox);
+        pushButtonMoveDown_a->setObjectName(QStringLiteral("pushButtonMoveDown_a"));
+        pushButtonMoveDown_a->setLayoutDirection(Qt::LeftToRight);
+
+        gridLayout_9->addWidget(pushButtonMoveDown_a, 0, 3, 1, 1);
+
+
+        gridLayout_15->addLayout(gridLayout_9, 1, 0, 1, 1);
+
+        groupBox_3 = new QGroupBox(groupBox);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
         gridLayout_2 = new QGridLayout(groupBox_3);
         gridLayout_2->setSpacing(6);
@@ -470,39 +426,9 @@ public:
         gridLayout_2->addWidget(listWidgetUp, 0, 0, 1, 1);
 
 
-        verticalLayout_3->addWidget(groupBox_3);
+        gridLayout_15->addWidget(groupBox_3, 0, 0, 1, 1);
 
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        pushButtonMoveUp = new QPushButton(groupBox_9);
-        pushButtonMoveUp->setObjectName(QStringLiteral("pushButtonMoveUp"));
-        pushButtonMoveUp->setLayoutDirection(Qt::LeftToRight);
-
-        horizontalLayout_7->addWidget(pushButtonMoveUp);
-
-        pushButtonMoveDown = new QPushButton(groupBox_9);
-        pushButtonMoveDown->setObjectName(QStringLiteral("pushButtonMoveDown"));
-        pushButtonMoveDown->setLayoutDirection(Qt::LeftToRight);
-
-        horizontalLayout_7->addWidget(pushButtonMoveDown);
-
-        pushButtonMoveUp_a = new QPushButton(groupBox_9);
-        pushButtonMoveUp_a->setObjectName(QStringLiteral("pushButtonMoveUp_a"));
-        pushButtonMoveUp_a->setLayoutDirection(Qt::LeftToRight);
-
-        horizontalLayout_7->addWidget(pushButtonMoveUp_a);
-
-        pushButtonMoveDown_a = new QPushButton(groupBox_9);
-        pushButtonMoveDown_a->setObjectName(QStringLiteral("pushButtonMoveDown_a"));
-        pushButtonMoveDown_a->setLayoutDirection(Qt::LeftToRight);
-
-        horizontalLayout_7->addWidget(pushButtonMoveDown_a);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_7);
-
-        groupBox_8 = new QGroupBox(groupBox_9);
+        groupBox_8 = new QGroupBox(groupBox);
         groupBox_8->setObjectName(QStringLiteral("groupBox_8"));
         gridLayout_3 = new QGridLayout(groupBox_8);
         gridLayout_3->setSpacing(6);
@@ -514,19 +440,92 @@ public:
         gridLayout_3->addWidget(listWidgetDown, 0, 0, 1, 1);
 
 
-        verticalLayout_3->addWidget(groupBox_8);
+        gridLayout_15->addWidget(groupBox_8, 2, 0, 1, 1);
 
 
-        gridLayout_9->addLayout(verticalLayout_3, 0, 0, 1, 1);
+        gridLayout_14->addLayout(gridLayout_15, 0, 1, 1, 1);
+
+        gridLayout_14->setColumnStretch(0, 7);
+        gridLayout_14->setColumnStretch(1, 3);
+
+        gridLayout_18->addLayout(gridLayout_14, 1, 0, 1, 1);
+
+        gridLayout_17 = new QGridLayout();
+        gridLayout_17->setSpacing(6);
+        gridLayout_17->setObjectName(QStringLiteral("gridLayout_17"));
+        label = new QLabel(groupBox);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_17->addWidget(label, 0, 0, 1, 1);
+
+        lineEdit_login = new QLineEdit(groupBox);
+        lineEdit_login->setObjectName(QStringLiteral("lineEdit_login"));
+
+        gridLayout_17->addWidget(lineEdit_login, 0, 1, 1, 1);
+
+        pushButtonOpenFile = new QPushButton(groupBox);
+        pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
+
+        gridLayout_17->addWidget(pushButtonOpenFile, 0, 2, 1, 1);
+
+        lineEdit_path = new QLineEdit(groupBox);
+        lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
+
+        gridLayout_17->addWidget(lineEdit_path, 0, 3, 1, 1);
+
+        pushButtonFindpoint = new QPushButton(groupBox);
+        pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
+
+        gridLayout_17->addWidget(pushButtonFindpoint, 0, 4, 1, 1);
+
+        pushButtonEdit = new QPushButton(groupBox);
+        pushButtonEdit->setObjectName(QStringLiteral("pushButtonEdit"));
+        pushButtonEdit->setEnabled(false);
+
+        gridLayout_17->addWidget(pushButtonEdit, 0, 5, 1, 1);
+
+        pushButtonSave = new QPushButton(groupBox);
+        pushButtonSave->setObjectName(QStringLiteral("pushButtonSave"));
+        pushButtonSave->setEnabled(false);
+
+        gridLayout_17->addWidget(pushButtonSave, 0, 6, 1, 1);
+
+        pushButtonSelfCheck = new QPushButton(groupBox);
+        pushButtonSelfCheck->setObjectName(QStringLiteral("pushButtonSelfCheck"));
+
+        gridLayout_17->addWidget(pushButtonSelfCheck, 0, 7, 1, 1);
+
+        pushButtonLockScreen = new QPushButton(groupBox);
+        pushButtonLockScreen->setObjectName(QStringLiteral("pushButtonLockScreen"));
+
+        gridLayout_17->addWidget(pushButtonLockScreen, 0, 8, 1, 1);
+
+        comboBox = new QComboBox(groupBox);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+
+        gridLayout_17->addWidget(comboBox, 0, 9, 1, 1);
+
+        pushButtonConnect = new QPushButton(groupBox);
+        pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));
+
+        gridLayout_17->addWidget(pushButtonConnect, 0, 10, 1, 1);
+
+        pushButtonRead = new QPushButton(groupBox);
+        pushButtonRead->setObjectName(QStringLiteral("pushButtonRead"));
+
+        gridLayout_17->addWidget(pushButtonRead, 0, 11, 1, 1);
+
+        pushButton_11 = new QPushButton(groupBox);
+        pushButton_11->setObjectName(QStringLiteral("pushButton_11"));
+        pushButton_11->setEnabled(false);
+
+        gridLayout_17->addWidget(pushButton_11, 0, 12, 1, 1);
 
 
-        horizontalLayout_8->addWidget(groupBox_9);
+        gridLayout_18->addLayout(gridLayout_17, 0, 0, 1, 1);
 
 
-        verticalLayout_6->addLayout(horizontalLayout_8);
-
-
-        gridLayout_10->addLayout(verticalLayout_6, 0, 0, 1, 1);
+        gridLayout_10->addLayout(gridLayout_18, 0, 0, 1, 1);
 
 
         gridLayout->addWidget(groupBox, 0, 0, 1, 1);
@@ -548,7 +547,7 @@ public:
 
         retranslateUi(QIoTestClass);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(QIoTestClass);
@@ -558,16 +557,6 @@ public:
     {
         QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest V3.0.1", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("QIoTestClass", "\347\252\227\345\217\243\345\212\237\350\203\275\345\214\272", Q_NULLPTR));
-        label->setText(QApplication::translate("QIoTestClass", "\347\231\273\351\231\206\350\264\246\345\217\267:", Q_NULLPTR));
-        pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
-        pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));
-        pushButtonEdit->setText(QApplication::translate("QIoTestClass", "\344\277\256\346\224\271on/off", Q_NULLPTR));
-        pushButtonSave->setText(QApplication::translate("QIoTestClass", "\344\277\235\345\255\230", Q_NULLPTR));
-        pushButtonSelfCheck->setText(QApplication::translate("QIoTestClass", "\350\207\252\346\243\200", Q_NULLPTR));
-        pushButtonLockScreen->setText(QApplication::translate("QIoTestClass", "\351\224\201\345\256\232", Q_NULLPTR));
-        pushButtonConnect->setText(QApplication::translate("QIoTestClass", "Connect", Q_NULLPTR));
-        pushButtonRead->setText(QApplication::translate("QIoTestClass", "Read", Q_NULLPTR));
-        pushButton_11->setText(QApplication::translate("QIoTestClass", "\347\263\273\347\273\237\350\256\276\347\275\256", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\347\252\227\345\217\243", Q_NULLPTR));
         groupBox_4->setTitle(QApplication::translate("QIoTestClass", "ok/ng", Q_NULLPTR));
         labelResult->setText(QString());
@@ -588,8 +577,6 @@ public:
         pushButton_18->setText(QApplication::translate("QIoTestClass", "\351\222\210\347\202\271\346\237\245", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\346\241\243\346\241\210", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("QIoTestClass", "NG\350\256\260\345\275\225", Q_NULLPTR));
-        groupBox_9->setTitle(QString());
-        groupBox_3->setTitle(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\345\233\276\345\217\267", Q_NULLPTR));
         pushButtonMoveUp->setText(QApplication::translate("QIoTestClass", "/\\ \n"
 "|", Q_NULLPTR));
         pushButtonMoveDown->setText(QApplication::translate("QIoTestClass", "|\n"
@@ -598,7 +585,18 @@ public:
 "||", Q_NULLPTR));
         pushButtonMoveDown_a->setText(QApplication::translate("QIoTestClass", "||\n"
 "\\/", Q_NULLPTR));
+        groupBox_3->setTitle(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\345\233\276\345\217\267", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("QIoTestClass", "\346\241\243\346\241\210\345\233\276\345\217\267", Q_NULLPTR));
+        label->setText(QApplication::translate("QIoTestClass", "\347\231\273\351\231\206\350\264\246\345\217\267:", Q_NULLPTR));
+        pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
+        pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));
+        pushButtonEdit->setText(QApplication::translate("QIoTestClass", "\344\277\256\346\224\271on/off", Q_NULLPTR));
+        pushButtonSave->setText(QApplication::translate("QIoTestClass", "\344\277\235\345\255\230", Q_NULLPTR));
+        pushButtonSelfCheck->setText(QApplication::translate("QIoTestClass", "\350\207\252\346\243\200", Q_NULLPTR));
+        pushButtonLockScreen->setText(QApplication::translate("QIoTestClass", "\351\224\201\345\256\232", Q_NULLPTR));
+        pushButtonConnect->setText(QApplication::translate("QIoTestClass", "Connect", Q_NULLPTR));
+        pushButtonRead->setText(QApplication::translate("QIoTestClass", "Read", Q_NULLPTR));
+        pushButton_11->setText(QApplication::translate("QIoTestClass", "\347\263\273\347\273\237\350\256\276\347\275\256", Q_NULLPTR));
     } // retranslateUi
 
 };
