@@ -28,6 +28,9 @@ QIoTest::QIoTest(QWidget *parent)
 	gExePath = QCoreApplication::applicationDirPath();
 	
 	gpUi->tabWidget->setCurrentIndex(0);
+	gpUi->tableWidget->horizontalHeader()->setVisible(false);
+	gpUi->tableWidget->verticalHeader()->setVisible(false);
+
 
 	// com init
 	for (size_t i = 0; i < 10; i++)
@@ -105,7 +108,9 @@ QIoTest::QIoTest(QWidget *parent)
 
 		FileIo::xlsxFile file;
 		file.readExcel(mFilePath, ui.tableWidget);
-	
+
+		gpUi->tableWidget->resizeColumnsToContents();
+
 		auto count = ui.tableWidget->rowCount();
 
 		mListTest.clear();
@@ -131,7 +136,7 @@ QIoTest::QIoTest(QWidget *parent)
 		{
 			ui.listWidgetUp->addItem(*it);			
 		}
-			
+
 	});
 	
 	connect(ui.pushButtonEdit, &QPushButton::clicked, [this]() {
