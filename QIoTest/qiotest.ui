@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QIoTest V3.0.1</string>
+   <string>QIoTest</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_11">
@@ -22,6 +22,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QGroupBox" name="groupBox">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 255);</string>
+        </property>
         <property name="title">
          <string>窗口功能区</string>
         </property>
@@ -46,6 +49,9 @@
                        <layout class="QVBoxLayout" name="verticalLayout_2">
                         <item>
                          <widget class="QGroupBox" name="groupBox_4">
+                          <property name="styleSheet">
+                           <string notr="true">color: rgb(0, 0, 255);</string>
+                          </property>
                           <property name="title">
                            <string>ok/ng</string>
                           </property>
@@ -131,6 +137,9 @@
                        <layout class="QVBoxLayout" name="verticalLayout">
                         <item>
                          <widget class="QGroupBox" name="groupBox_5">
+                          <property name="styleSheet">
+                           <string notr="true">color: rgb(0, 0, 255);</string>
+                          </property>
                           <property name="title">
                            <string>坐标</string>
                           </property>
@@ -174,6 +183,9 @@
                         </item>
                         <item>
                          <widget class="QGroupBox" name="groupBox_6">
+                          <property name="styleSheet">
+                           <string notr="true">color: rgb(0, 0, 255);</string>
+                          </property>
                           <property name="title">
                            <string>针点</string>
                           </property>
@@ -223,6 +235,9 @@
                         </item>
                         <item>
                          <widget class="QGroupBox" name="groupBox_7">
+                          <property name="styleSheet">
+                           <string notr="true">color: rgb(0, 0, 255);</string>
+                          </property>
                           <property name="title">
                            <string>图号</string>
                           </property>
@@ -286,6 +301,9 @@
                   </item>
                   <item row="1" column="0">
                    <widget class="QTabWidget" name="tabWidget">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(0, 0, 255);</string>
+                    </property>
                     <property name="currentIndex">
                      <number>0</number>
                     </property>
@@ -376,24 +394,38 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBox_3">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(0, 0, 255);</string>
+                 </property>
                  <property name="title">
                   <string>测试图号</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_2">
                   <item row="0" column="0">
-                   <widget class="QListWidget" name="listWidgetUp"/>
+                   <widget class="QListWidget" name="listWidgetUp">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(0, 85, 0);</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
                </item>
                <item row="2" column="0">
                 <widget class="QGroupBox" name="groupBox_8">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(0, 0, 255);</string>
+                 </property>
                  <property name="title">
                   <string>档案图号</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3">
                   <item row="0" column="0">
-                   <widget class="QListWidget" name="listWidgetDown"/>
+                   <widget class="QListWidget" name="listWidgetDown">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 0, 0);</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>

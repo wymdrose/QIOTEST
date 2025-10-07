@@ -139,6 +139,7 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_10 = new QGridLayout(groupBox);
         gridLayout_10->setSpacing(6);
         gridLayout_10->setContentsMargins(11, 11, 11, 11);
@@ -169,6 +170,7 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         groupBox_4 = new QGroupBox(groupBox_2);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
+        groupBox_4->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_4 = new QGridLayout(groupBox_4);
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -226,6 +228,7 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         groupBox_5 = new QGroupBox(groupBox_2);
         groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
+        groupBox_5->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_6 = new QGridLayout(groupBox_5);
         gridLayout_6->setSpacing(6);
         gridLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -259,6 +262,7 @@ public:
 
         groupBox_6 = new QGroupBox(groupBox_2);
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        groupBox_6->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_7 = new QGridLayout(groupBox_6);
         gridLayout_7->setSpacing(6);
         gridLayout_7->setContentsMargins(11, 11, 11, 11);
@@ -290,6 +294,7 @@ public:
 
         groupBox_7 = new QGroupBox(groupBox_2);
         groupBox_7->setObjectName(QStringLiteral("groupBox_7"));
+        groupBox_7->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_5 = new QGridLayout(groupBox_7);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -344,6 +349,7 @@ public:
 
         tabWidget = new QTabWidget(groupBox_2);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
         gridLayout_12 = new QGridLayout(tab);
@@ -416,12 +422,14 @@ public:
 
         groupBox_3 = new QGroupBox(groupBox);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_2 = new QGridLayout(groupBox_3);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         listWidgetUp = new QListWidget(groupBox_3);
         listWidgetUp->setObjectName(QStringLiteral("listWidgetUp"));
+        listWidgetUp->setStyleSheet(QStringLiteral("color: rgb(0, 85, 0);"));
 
         gridLayout_2->addWidget(listWidgetUp, 0, 0, 1, 1);
 
@@ -430,12 +438,14 @@ public:
 
         groupBox_8 = new QGroupBox(groupBox);
         groupBox_8->setObjectName(QStringLiteral("groupBox_8"));
+        groupBox_8->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_3 = new QGridLayout(groupBox_8);
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         listWidgetDown = new QListWidget(groupBox_8);
         listWidgetDown->setObjectName(QStringLiteral("listWidgetDown"));
+        listWidgetDown->setStyleSheet(QStringLiteral("color: rgb(255, 0, 0);"));
 
         gridLayout_3->addWidget(listWidgetDown, 0, 0, 1, 1);
 
@@ -555,7 +565,7 @@ public:
 
     void retranslateUi(QMainWindow *QIoTestClass)
     {
-        QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest V3.0.1", Q_NULLPTR));
+        QIoTestClass->setWindowTitle(QApplication::translate("QIoTestClass", "QIoTest", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("QIoTestClass", "\347\252\227\345\217\243\345\212\237\350\203\275\345\214\272", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\347\252\227\345\217\243", Q_NULLPTR));
         groupBox_4->setTitle(QApplication::translate("QIoTestClass", "ok/ng", Q_NULLPTR));
