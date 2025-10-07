@@ -95,7 +95,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
 		
-		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件¸"), 
+		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件"), 
 			gExePath + "/cfg/", QString("*%0*.xlsx").arg(ui.lineEdit_login->text()));
 
 		if (mFilePath.isEmpty())
@@ -174,6 +174,12 @@ QIoTest::QIoTest(QWidget *parent)
 	// 
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 		QDialog* tpDialog = new QDialog();
+
+		connect(tpDialog, &QDialog::finished, [this]
+		{
+			mbExit = true;
+		});
+
 		mFindPointLabel = new  QLabel("pin:    ");
 		QFont ft;
 		ft.setPointSize(80);
@@ -185,6 +191,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 		signalFindBegin();
 		tpDialog->exec();
+
 	});
 	
 	connect(ui.pushButtonPause, &QPushButton::clicked, [this]() {
@@ -285,7 +292,13 @@ void QIoTest::slotFindBegin()
 {
 	while (true)
 	{
-		_sleeploop(1000);
+		_sleeploop(300);
+
+		if (mbExit)
+		{
+			mbExit = false;
+			break;
+		}
 
 		QByteArray recv;
 		if (!gpComClient->communicate(QByteArray::fromHex("AA2800"), recv))
