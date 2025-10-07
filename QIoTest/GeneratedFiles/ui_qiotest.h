@@ -211,7 +211,7 @@ public:
 
         pushButtonStepTest = new QPushButton(groupBox_2);
         pushButtonStepTest->setObjectName(QStringLiteral("pushButtonStepTest"));
-        pushButtonStepTest->setEnabled(false);
+        pushButtonStepTest->setEnabled(true);
         pushButtonStepTest->setAutoDefault(false);
         pushButtonStepTest->setFlat(false);
 
@@ -557,7 +557,7 @@ public:
 
         retranslateUi(QIoTestClass);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(QIoTestClass);

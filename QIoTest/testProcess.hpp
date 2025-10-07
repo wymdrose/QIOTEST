@@ -11,7 +11,7 @@ bool QIoTest::checkShort(QSet<int> item, int L, int R)
 
 			if (!set.contains(item))	//modbus set > test set
 			{
-				lineMsg_ = QStringLiteral("短路:%0-%1").arg(L).arg(R);
+				lineMsg_ = QStringLiteral("短路:") + QString("%0 - %1").arg(L).arg(R);
 				for (const auto& pin : item)
 				{
 					lineMsg_ += QString(",%0").arg(pin);
@@ -89,7 +89,7 @@ void QIoTest::slotStartList()
 	ui.labelResult->clear();
 	if (mListTest.size() < 1)
 	{
-		QMessageBox::information(this, "", "请先加载测试档案！");
+		QMessageBox::information(this, "", QStringLiteral("请先加载测试档案！"));
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		ui.pushButtonStart->setEnabled(true);
 		return;
@@ -135,8 +135,8 @@ void QIoTest::slotStartList()
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
-			if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
-				break;
+			/*if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
+				break;*/
 		}
 		else
 		{

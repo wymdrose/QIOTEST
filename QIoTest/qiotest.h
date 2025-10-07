@@ -85,6 +85,7 @@ private:
 	QSet<QString> mCurCategorys;
 	bool mbPause = false;
 	bool mbExit = false;
+	bool bStep_ = false;
 	//---------------------------------------------------------------------//
 
 	QVector<QSet<int>> modbusSets;

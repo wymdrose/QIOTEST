@@ -74,10 +74,14 @@ void QIoTest::slotValuesReady()
 	updateModbusSets();
 
 	//
+	if (bStep_)
+	{
+		return;
+	}
+
+	//
 	ui.pushButtonStart->setEnabled(false);
-	
 	signalStartList();
-	
 }
 
 

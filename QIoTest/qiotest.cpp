@@ -220,11 +220,29 @@ QIoTest::QIoTest(QWidget *parent)
 		}
 	});
 	connect(ui.pushButtonStepTest, &QPushButton::clicked, [this]() {
-		
-		QList<QTableWidgetItem*>items = ui.tableWidget->selectedItems();
-		
-		int i = ui.tableWidget->row(items.at(0));
 
+		ui.labelResult->clear();
+
+		if (mListTest.size() < 1)
+		{
+			QMessageBox::information(this, "", QStringLiteral("请先加载测试档案..."));
+			gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
+			ui.pushButtonStart->setEnabled(true);
+			return;
+		}
+
+		QList<QTableWidgetItem*>items = ui.tableWidget->selectedItems();
+		if (items.count() < 1)
+		{
+			QMessageBox::information(this, "", QStringLiteral("请选择测试行..."));
+			return;
+		}
+
+		// read
+		bStep_ = true;
+		ui.pushButtonRead->clicked();
+
+		int i = ui.tableWidget->row(items.at(0));
 		itemTest tItem;
 		tItem.bInlist = true;
 		tItem.result = -1;
@@ -245,12 +263,16 @@ QIoTest::QIoTest(QWidget *parent)
 		{
 			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
+			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 		}
 		else
 		{
 			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "OK");
 			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 255, 0), 0);
+			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK: %0 - %1</font>").arg(tItem.pinL).arg(tItem.pinR));
 		}
+
+		bStep_ = false;
 	});
 
 	connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, [this](){
