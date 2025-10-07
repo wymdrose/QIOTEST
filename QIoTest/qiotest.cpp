@@ -31,7 +31,8 @@ QIoTest::QIoTest(QWidget *parent)
 	gpUi->tabWidget->setCurrentIndex(0);
 	gpUi->tableWidget->horizontalHeader()->setVisible(false);
 	gpUi->tableWidget->verticalHeader()->setVisible(false);
-
+	gpUi->tableWidgetNg->horizontalHeader()->setVisible(false);
+	gpUi->tableWidgetNg->verticalHeader()->setVisible(false);
 
 	// com init
 	for (size_t i = 0; i < 10; i++)

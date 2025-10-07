@@ -11,7 +11,7 @@ bool QIoTest::checkShort(QSet<int> item, int L, int R)
 
 			if (!set.contains(item))	//modbus set > test set
 			{
-				lineMsg_ = QStringLiteral("短路:") + QString("%0 - %1").arg(L).arg(R);
+				lineMsg_ = QObject::tr("短路:") + QString("%0 - %1").arg(L).arg(R);
 				for (const auto& pin : item)
 				{
 					lineMsg_ += QString(",%0").arg(pin);
@@ -97,6 +97,8 @@ void QIoTest::slotStartList()
 
 	bool result = true;
 
+	ng_list_.clear();
+	gpUi->tableWidgetNg->clear();
 	for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 	{
 		QApplication::processEvents();
@@ -135,6 +137,9 @@ void QIoTest::slotStartList()
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
 		
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
+
+			ng_list_.append(*it);
+
 			/*if (QMessageBox::question(this, "", " 继续 ?") != QMessageBox::Yes)
 				break;*/
 		}
@@ -145,6 +150,21 @@ void QIoTest::slotStartList()
 		}
 	}
 
+	//ng list show
+	gpUi->tableWidgetNg->setRowCount(ng_list_.count());
+	gpUi->tableWidgetNg->setColumnCount(7);
+	for (size_t i = 0; i < ng_list_.count(); i++)
+	{
+		gpUi->tableWidgetNg->setItem(i, 1, QTableWidgetItem(ng_list_[i].coordinateL).clone());
+		gpUi->tableWidgetNg->setItem(i, 2, QTableWidgetItem(ng_list_[i].coordinateR).clone());
+		gpUi->tableWidgetNg->setItem(i, 3, QTableWidgetItem(ng_list_[i].category).clone());
+		gpUi->tableWidgetNg->setItem(i, 4, QTableWidgetItem(ng_list_[i].pinL).clone());
+		gpUi->tableWidgetNg->setItem(i, 5, QTableWidgetItem(ng_list_[i].pinR).clone());
+	}
+	gpUi->tableWidgetNg->resizeColumnsToContents();
+
+
+	//
 	if (result)
 	{
 		ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK</font>"));

@@ -82,6 +82,7 @@ private:
 	QMap<QString, QList<QString>> mapTest;	//need to test from cateory
 	std::vector<int> mCurBoards;
 	QList<itemTest> mListTest;	//read all items from local file.
+	QList<itemTest> ng_list_;
 	QSet<QString> mCurCategorys;
 	bool mbPause = false;
 	bool mbExit = false;
