@@ -6,6 +6,7 @@
 #include <vector>
 #include <QVBoxLayout>
 #include <QtWidgets/qfiledialog.h>
+#include "QtMultimedia/qsound.h"
 #include "modbusModel.hpp"
 #include "testProcess.hpp"
 
@@ -178,6 +179,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 	// 
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
+
 		QDialog* tpDialog = new QDialog();
 
 		mbExit = false;
@@ -337,6 +339,8 @@ void QIoTest::slotFindBegin()
 		}
 
 		signalFind(v_pins.join(","));
+
+		QSound::play(gExePath + "/find.wav");
 	}
 }
 

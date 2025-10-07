@@ -25,6 +25,7 @@
 #pragma comment(lib, "Qt5SerialPortd.lib")
 #pragma comment(lib, "Qt5Widgetsd.lib")
 #pragma comment(lib, "Qt5SerialBusd.lib")
+#pragma comment(lib, "Qt5Multimediad.lib")
 
 #pragma comment(lib, "MySignal.lib")
 #pragma comment(lib, "FileLib.lib")
