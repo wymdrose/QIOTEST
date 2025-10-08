@@ -287,14 +287,16 @@ QIoTest::QIoTest(QWidget *parent)
 
 		if (!lineTest(tItem))
 		{
-			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "NG");
-			gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
+			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "  NG  ");
+			//gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
+			widget->item(tItem.rowNo, 0)->setTextColor(QColor(255, 0, 0));
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 		}
 		else
 		{
-			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "OK");
-			gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(255, 255, 0), 0);
+			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "  OK  ");
+			//gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(0, 255, 0), 0);
+			widget->item(tItem.rowNo, 0)->setTextColor(QColor(0, 255, 0));
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK: %0 - %1</font>").arg(tItem.pinL).arg(tItem.pinR));
 		}
 
@@ -329,14 +331,15 @@ QIoTest::QIoTest(QWidget *parent)
 
 		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
 		{
-			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "");
+			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), " ");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 255, 255), 0);
-			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 255, 255), 0);
+			/*gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 255, 255), 0);
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 2), QColor(255, 255, 255), 0);
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 3), QColor(255, 255, 255), 0);
-			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 255, 255), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 255, 255), 0);*/
 		}
 
+		qDebug() << "pushButtonReadSlot...";
 		pushButtonReadSlot();
 		
 	});

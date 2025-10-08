@@ -81,6 +81,7 @@ void QIoTest::slotValuesReady()
 
 	//
 	ui.pushButtonStart->setEnabled(false);
+	qDebug() << "signalStartList...";
 	signalStartList();
 }
 
@@ -163,10 +164,11 @@ void QIoTest::pushButtonReadSlot()
 		return;
 	}
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 100; i++)
 	{
 		if (parse_done_)
 		{
+			qDebug() << "signalValuesReady...";
 			signalValuesReady();
 			break;
 		}

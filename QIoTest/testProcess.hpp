@@ -134,12 +134,12 @@ void QIoTest::slotStartList()
 		{
 			result = false;
 
-			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
+			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "  NG  ");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
-			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 0, 0), 0);
+			/*gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 0, 0), 0);
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 2), QColor(255, 0, 0), 0);
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 3), QColor(255, 0, 0), 0);
-			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 0, 0), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 0, 0), 0);*/
 
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 
@@ -150,12 +150,12 @@ void QIoTest::slotStartList()
 		}
 		else
 		{
-			ui.tableWidget->item(it->rowNo, 0)->setText("OK");
+			ui.tableWidget->item(it->rowNo, 0)->setText("  OK  ");
 			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
-			ui.tableWidget->item(it->rowNo, 1)->setBackgroundColor(QColor(0, 255, 0));
+			/*ui.tableWidget->item(it->rowNo, 1)->setBackgroundColor(QColor(0, 255, 0));
 			ui.tableWidget->item(it->rowNo, 2)->setBackgroundColor(QColor(0, 255, 0));
 			ui.tableWidget->item(it->rowNo, 3)->setBackgroundColor(QColor(0, 255, 0));
-			ui.tableWidget->item(it->rowNo, 4)->setBackgroundColor(QColor(0, 255, 0));
+			ui.tableWidget->item(it->rowNo, 4)->setBackgroundColor(QColor(0, 255, 0));*/
 		}
 	}
 
@@ -165,7 +165,9 @@ void QIoTest::slotStartList()
 	for (size_t i = 0; i < ng_list_.count(); i++)
 	{
 		int index = 0;
-		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("NG").clone());
+		
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("  NG  ").clone());
+		ui.tableWidgetNg->item(i, 0)->setTextColor(QColor(255, 0, 0));
 		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].coordinateL).clone());
 		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].coordinateR).clone());
 		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].category).clone());
