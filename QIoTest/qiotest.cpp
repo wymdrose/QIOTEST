@@ -331,6 +331,10 @@ QIoTest::QIoTest(QWidget *parent)
 		{
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 255, 255), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 255, 255), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 2), QColor(255, 255, 255), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 3), QColor(255, 255, 255), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 255, 255), 0);
 		}
 
 		pushButtonReadSlot();

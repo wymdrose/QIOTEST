@@ -185,6 +185,7 @@ void QIoTest::slotStartList()
 		ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK</font>"));
 	}
 
+	gpUi->tableWidget->resizeColumnsToContents();
 	gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 	ui.pushButtonStart->setEnabled(true);
 }

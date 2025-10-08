@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1236</width>
+    <width>1297</width>
     <height>784</height>
    </rect>
   </property>
@@ -22,6 +22,11 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QGroupBox" name="groupBox">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(0, 0, 255);</string>
         </property>
@@ -35,6 +40,11 @@
             <layout class="QGridLayout" name="gridLayout_14" columnstretch="7,3">
              <item row="0" column="0">
               <widget class="QGroupBox" name="groupBox_2">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="title">
                 <string>测试窗口</string>
                </property>
@@ -46,7 +56,7 @@
                     <item row="0" column="0">
                      <layout class="QHBoxLayout" name="horizontalLayout_6">
                       <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_2">
+                       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,1">
                         <item>
                          <widget class="QGroupBox" name="groupBox_4">
                           <property name="styleSheet">
@@ -73,6 +83,17 @@
                          <layout class="QHBoxLayout" name="horizontalLayout_4">
                           <item>
                            <widget class="QPushButton" name="pushButtonStart">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <property name="text">
                              <string>开始</string>
                             </property>
@@ -102,6 +123,11 @@
                           </item>
                           <item>
                            <widget class="QPushButton" name="pushButtonExit">
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
+                            </property>
                             <property name="text">
                              <string>退出测</string>
                             </property>
@@ -117,6 +143,11 @@
                            <widget class="QPushButton" name="pushButtonStepTest">
                             <property name="enabled">
                              <bool>true</bool>
+                            </property>
+                            <property name="font">
+                             <font>
+                              <pointsize>14</pointsize>
+                             </font>
                             </property>
                             <property name="text">
                              <string>单步测</string>
@@ -148,6 +179,11 @@
                             <layout class="QHBoxLayout" name="horizontalLayout_2">
                              <item>
                               <widget class="QLabel" name="labelCoordinateL">
+                               <property name="font">
+                                <font>
+                                 <pointsize>14</pointsize>
+                                </font>
+                               </property>
                                <property name="frameShape">
                                 <enum>QFrame::Box</enum>
                                </property>
@@ -168,6 +204,11 @@
                              </item>
                              <item>
                               <widget class="QLabel" name="labelCoordinateR">
+                               <property name="font">
+                                <font>
+                                 <pointsize>14</pointsize>
+                                </font>
+                               </property>
                                <property name="frameShape">
                                 <enum>QFrame::Box</enum>
                                </property>
@@ -194,6 +235,11 @@
                             <layout class="QHBoxLayout" name="horizontalLayout_3">
                              <item>
                               <widget class="QLabel" name="labelPinL">
+                               <property name="font">
+                                <font>
+                                 <pointsize>14</pointsize>
+                                </font>
+                               </property>
                                <property name="frameShape">
                                 <enum>QFrame::Box</enum>
                                </property>
@@ -220,6 +266,11 @@
                              </item>
                              <item>
                               <widget class="QLabel" name="labelPinR">
+                               <property name="font">
+                                <font>
+                                 <pointsize>14</pointsize>
+                                </font>
+                               </property>
                                <property name="frameShape">
                                 <enum>QFrame::Box</enum>
                                </property>
@@ -244,6 +295,11 @@
                           <layout class="QGridLayout" name="gridLayout_5">
                            <item row="0" column="0">
                             <widget class="QLabel" name="labelCategory">
+                             <property name="font">
+                              <font>
+                               <pointsize>14</pointsize>
+                              </font>
+                             </property>
                              <property name="frameShape">
                               <enum>QFrame::Box</enum>
                              </property>
@@ -266,6 +322,11 @@
                         <property name="enabled">
                          <bool>true</bool>
                         </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
                         <property name="layoutDirection">
                          <enum>Qt::LeftToRight</enum>
                         </property>
@@ -282,6 +343,17 @@
                         <property name="enabled">
                          <bool>true</bool>
                         </property>
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
                         <property name="text">
                          <string>坐标查</string>
                         </property>
@@ -292,6 +364,11 @@
                         <property name="enabled">
                          <bool>true</bool>
                         </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
                         <property name="alignment">
                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                         </property>
@@ -301,6 +378,11 @@
                        <widget class="QPushButton" name="btn_find_pin">
                         <property name="enabled">
                          <bool>true</bool>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>14</pointsize>
+                         </font>
                         </property>
                         <property name="text">
                          <string>针点查</string>
@@ -313,6 +395,11 @@
                   </item>
                   <item row="1" column="0">
                    <widget class="QTabWidget" name="tabWidget">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">color: rgb(0, 0, 255);</string>
                     </property>
@@ -326,6 +413,11 @@
                      <layout class="QGridLayout" name="gridLayout_12">
                       <item row="0" column="0">
                        <widget class="QTableWidget" name="tableWidget">
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
                         <property name="selectionBehavior">
                          <enum>QAbstractItemView::SelectRows</enum>
                         </property>
@@ -340,6 +432,11 @@
                      <layout class="QGridLayout" name="gridLayout_13">
                       <item row="0" column="0">
                        <widget class="QTableWidget" name="tableWidgetNg">
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
                         <property name="selectionBehavior">
                          <enum>QAbstractItemView::SelectRows</enum>
                         </property>
@@ -406,6 +503,11 @@
                </item>
                <item row="0" column="0">
                 <widget class="QGroupBox" name="groupBox_3">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">color: rgb(0, 0, 255);</string>
                  </property>
@@ -415,6 +517,11 @@
                  <layout class="QGridLayout" name="gridLayout_2">
                   <item row="0" column="0">
                    <widget class="QListWidget" name="listWidgetUp">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">color: rgb(0, 85, 0);</string>
                     </property>
@@ -425,6 +532,11 @@
                </item>
                <item row="2" column="0">
                 <widget class="QGroupBox" name="groupBox_8">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">color: rgb(0, 0, 255);</string>
                  </property>
@@ -434,6 +546,11 @@
                  <layout class="QGridLayout" name="gridLayout_3">
                   <item row="0" column="0">
                    <widget class="QListWidget" name="listWidgetDown">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">color: rgb(255, 0, 0);</string>
                     </property>
@@ -450,26 +567,59 @@
             <layout class="QGridLayout" name="gridLayout_17">
              <item row="0" column="0">
               <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>登陆账号:</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_login"/>
+              <widget class="QLineEdit" name="lineEdit_login">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
              <item row="0" column="2">
               <widget class="QPushButton" name="pushButtonOpenFile">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>打开文件</string>
                </property>
               </widget>
              </item>
              <item row="0" column="3">
-              <widget class="QLineEdit" name="lineEdit_path"/>
+              <widget class="QLineEdit" name="lineEdit_path">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
              <item row="0" column="4">
               <widget class="QPushButton" name="pushButtonFindpoint">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>找点</string>
                </property>
@@ -510,12 +660,23 @@
               </widget>
              </item>
              <item row="0" column="9">
-              <widget class="QComboBox" name="comboBox"/>
+              <widget class="QComboBox" name="comboBox">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
              <item row="0" column="10">
               <widget class="QPushButton" name="pushButtonConnect">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
                <property name="text">
-                <string>Connect</string>
+                <string>连接</string>
                </property>
               </widget>
              </item>
@@ -552,7 +713,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1236</width>
+     <width>1297</width>
      <height>26</height>
     </rect>
    </property>

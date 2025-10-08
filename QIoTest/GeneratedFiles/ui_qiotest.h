@@ -121,7 +121,7 @@ public:
     {
         if (QIoTestClass->objectName().isEmpty())
             QIoTestClass->setObjectName(QStringLiteral("QIoTestClass"));
-        QIoTestClass->resize(1236, 784);
+        QIoTestClass->resize(1297, 784);
         centralWidget = new QWidget(QIoTestClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_11 = new QGridLayout(centralWidget);
@@ -139,6 +139,9 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
+        QFont font;
+        font.setPointSize(12);
+        groupBox->setFont(font);
         groupBox->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_10 = new QGridLayout(groupBox);
         gridLayout_10->setSpacing(6);
@@ -152,6 +155,7 @@ public:
         gridLayout_14->setObjectName(QStringLiteral("gridLayout_14"));
         groupBox_2 = new QGroupBox(groupBox);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setFont(font);
         gridLayout_19 = new QGridLayout(groupBox_2);
         gridLayout_19->setSpacing(6);
         gridLayout_19->setContentsMargins(11, 11, 11, 11);
@@ -189,6 +193,14 @@ public:
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         pushButtonStart = new QPushButton(groupBox_2);
         pushButtonStart->setObjectName(QStringLiteral("pushButtonStart"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(pushButtonStart->sizePolicy().hasHeightForWidth());
+        pushButtonStart->setSizePolicy(sizePolicy);
+        QFont font1;
+        font1.setPointSize(14);
+        pushButtonStart->setFont(font1);
         pushButtonStart->setAutoDefault(false);
         pushButtonStart->setFlat(false);
 
@@ -204,6 +216,7 @@ public:
 
         pushButtonExit = new QPushButton(groupBox_2);
         pushButtonExit->setObjectName(QStringLiteral("pushButtonExit"));
+        pushButtonExit->setFont(font1);
         pushButtonExit->setAutoDefault(false);
         pushButtonExit->setFlat(false);
 
@@ -212,6 +225,7 @@ public:
         pushButtonStepTest = new QPushButton(groupBox_2);
         pushButtonStepTest->setObjectName(QStringLiteral("pushButtonStepTest"));
         pushButtonStepTest->setEnabled(true);
+        pushButtonStepTest->setFont(font1);
         pushButtonStepTest->setAutoDefault(false);
         pushButtonStepTest->setFlat(false);
 
@@ -220,6 +234,8 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_4);
 
+        verticalLayout_2->setStretch(0, 3);
+        verticalLayout_2->setStretch(1, 1);
 
         horizontalLayout_6->addLayout(verticalLayout_2);
 
@@ -238,6 +254,7 @@ public:
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         labelCoordinateL = new QLabel(groupBox_5);
         labelCoordinateL->setObjectName(QStringLiteral("labelCoordinateL"));
+        labelCoordinateL->setFont(font1);
         labelCoordinateL->setFrameShape(QFrame::Box);
 
         horizontalLayout_2->addWidget(labelCoordinateL);
@@ -250,6 +267,7 @@ public:
 
         labelCoordinateR = new QLabel(groupBox_5);
         labelCoordinateR->setObjectName(QStringLiteral("labelCoordinateR"));
+        labelCoordinateR->setFont(font1);
         labelCoordinateR->setFrameShape(QFrame::Box);
 
         horizontalLayout_2->addWidget(labelCoordinateR);
@@ -272,6 +290,7 @@ public:
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         labelPinL = new QLabel(groupBox_6);
         labelPinL->setObjectName(QStringLiteral("labelPinL"));
+        labelPinL->setFont(font1);
         labelPinL->setFrameShape(QFrame::Box);
 
         horizontalLayout_3->addWidget(labelPinL);
@@ -282,6 +301,7 @@ public:
 
         labelPinR = new QLabel(groupBox_6);
         labelPinR->setObjectName(QStringLiteral("labelPinR"));
+        labelPinR->setFont(font1);
         labelPinR->setFrameShape(QFrame::Box);
 
         horizontalLayout_3->addWidget(labelPinR);
@@ -301,6 +321,7 @@ public:
         gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         labelCategory = new QLabel(groupBox_7);
         labelCategory->setObjectName(QStringLiteral("labelCategory"));
+        labelCategory->setFont(font1);
         labelCategory->setFrameShape(QFrame::Box);
 
         gridLayout_5->addWidget(labelCategory, 0, 0, 1, 1);
@@ -320,6 +341,7 @@ public:
         lineEdit_coor = new QLineEdit(groupBox_2);
         lineEdit_coor->setObjectName(QStringLiteral("lineEdit_coor"));
         lineEdit_coor->setEnabled(true);
+        lineEdit_coor->setFont(font1);
         lineEdit_coor->setLayoutDirection(Qt::LeftToRight);
         lineEdit_coor->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -328,12 +350,19 @@ public:
         btn_find_coor = new QPushButton(groupBox_2);
         btn_find_coor->setObjectName(QStringLiteral("btn_find_coor"));
         btn_find_coor->setEnabled(true);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(btn_find_coor->sizePolicy().hasHeightForWidth());
+        btn_find_coor->setSizePolicy(sizePolicy1);
+        btn_find_coor->setFont(font1);
 
         horizontalLayout_5->addWidget(btn_find_coor);
 
         lineEdit_pin = new QLineEdit(groupBox_2);
         lineEdit_pin->setObjectName(QStringLiteral("lineEdit_pin"));
         lineEdit_pin->setEnabled(true);
+        lineEdit_pin->setFont(font1);
         lineEdit_pin->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         horizontalLayout_5->addWidget(lineEdit_pin);
@@ -341,6 +370,7 @@ public:
         btn_find_pin = new QPushButton(groupBox_2);
         btn_find_pin->setObjectName(QStringLiteral("btn_find_pin"));
         btn_find_pin->setEnabled(true);
+        btn_find_pin->setFont(font1);
 
         horizontalLayout_5->addWidget(btn_find_pin);
 
@@ -352,6 +382,7 @@ public:
 
         tabWidget = new QTabWidget(groupBox_2);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setFont(font);
         tabWidget->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
@@ -361,6 +392,7 @@ public:
         gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
         tableWidget = new QTableWidget(tab);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
+        tableWidget->setFont(font);
         tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
         gridLayout_12->addWidget(tableWidget, 0, 0, 1, 1);
@@ -374,6 +406,7 @@ public:
         gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
         tableWidgetNg = new QTableWidget(tab_2);
         tableWidgetNg->setObjectName(QStringLiteral("tableWidgetNg"));
+        tableWidgetNg->setFont(font);
         tableWidgetNg->setSelectionBehavior(QAbstractItemView::SelectRows);
 
         gridLayout_13->addWidget(tableWidgetNg, 0, 0, 1, 1);
@@ -425,6 +458,7 @@ public:
 
         groupBox_3 = new QGroupBox(groupBox);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setFont(font);
         groupBox_3->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_2 = new QGridLayout(groupBox_3);
         gridLayout_2->setSpacing(6);
@@ -432,6 +466,7 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         listWidgetUp = new QListWidget(groupBox_3);
         listWidgetUp->setObjectName(QStringLiteral("listWidgetUp"));
+        listWidgetUp->setFont(font);
         listWidgetUp->setStyleSheet(QStringLiteral("color: rgb(0, 85, 0);"));
 
         gridLayout_2->addWidget(listWidgetUp, 0, 0, 1, 1);
@@ -441,6 +476,7 @@ public:
 
         groupBox_8 = new QGroupBox(groupBox);
         groupBox_8->setObjectName(QStringLiteral("groupBox_8"));
+        groupBox_8->setFont(font);
         groupBox_8->setStyleSheet(QStringLiteral("color: rgb(0, 0, 255);"));
         gridLayout_3 = new QGridLayout(groupBox_8);
         gridLayout_3->setSpacing(6);
@@ -448,6 +484,7 @@ public:
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         listWidgetDown = new QListWidget(groupBox_8);
         listWidgetDown->setObjectName(QStringLiteral("listWidgetDown"));
+        listWidgetDown->setFont(font);
         listWidgetDown->setStyleSheet(QStringLiteral("color: rgb(255, 0, 0);"));
 
         gridLayout_3->addWidget(listWidgetDown, 0, 0, 1, 1);
@@ -468,26 +505,33 @@ public:
         gridLayout_17->setObjectName(QStringLiteral("gridLayout_17"));
         label = new QLabel(groupBox);
         label->setObjectName(QStringLiteral("label"));
+        label->setFont(font);
 
         gridLayout_17->addWidget(label, 0, 0, 1, 1);
 
         lineEdit_login = new QLineEdit(groupBox);
         lineEdit_login->setObjectName(QStringLiteral("lineEdit_login"));
+        lineEdit_login->setFont(font);
 
         gridLayout_17->addWidget(lineEdit_login, 0, 1, 1, 1);
 
         pushButtonOpenFile = new QPushButton(groupBox);
         pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
+        sizePolicy1.setHeightForWidth(pushButtonOpenFile->sizePolicy().hasHeightForWidth());
+        pushButtonOpenFile->setSizePolicy(sizePolicy1);
+        pushButtonOpenFile->setFont(font1);
 
         gridLayout_17->addWidget(pushButtonOpenFile, 0, 2, 1, 1);
 
         lineEdit_path = new QLineEdit(groupBox);
         lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
+        lineEdit_path->setFont(font);
 
         gridLayout_17->addWidget(lineEdit_path, 0, 3, 1, 1);
 
         pushButtonFindpoint = new QPushButton(groupBox);
         pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
+        pushButtonFindpoint->setFont(font1);
 
         gridLayout_17->addWidget(pushButtonFindpoint, 0, 4, 1, 1);
 
@@ -515,11 +559,13 @@ public:
 
         comboBox = new QComboBox(groupBox);
         comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setFont(font1);
 
         gridLayout_17->addWidget(comboBox, 0, 9, 1, 1);
 
         pushButtonConnect = new QPushButton(groupBox);
         pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));
+        pushButtonConnect->setFont(font1);
 
         gridLayout_17->addWidget(pushButtonConnect, 0, 10, 1, 1);
 
@@ -549,7 +595,7 @@ public:
         QIoTestClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(QIoTestClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1236, 26));
+        menuBar->setGeometry(QRect(0, 0, 1297, 26));
         QIoTestClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(QIoTestClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -608,7 +654,7 @@ public:
         pushButtonSave->setText(QApplication::translate("QIoTestClass", "\344\277\235\345\255\230", Q_NULLPTR));
         pushButtonSelfCheck->setText(QApplication::translate("QIoTestClass", "\350\207\252\346\243\200", Q_NULLPTR));
         pushButtonLockScreen->setText(QApplication::translate("QIoTestClass", "\351\224\201\345\256\232", Q_NULLPTR));
-        pushButtonConnect->setText(QApplication::translate("QIoTestClass", "Connect", Q_NULLPTR));
+        pushButtonConnect->setText(QApplication::translate("QIoTestClass", "\350\277\236\346\216\245", Q_NULLPTR));
         pushButtonRead->setText(QApplication::translate("QIoTestClass", "Read", Q_NULLPTR));
         pushButton_11->setText(QApplication::translate("QIoTestClass", "\347\263\273\347\273\237\350\256\276\347\275\256", Q_NULLPTR));
     } // retranslateUi
