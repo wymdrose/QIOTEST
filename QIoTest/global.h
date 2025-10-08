@@ -12,10 +12,11 @@
 #include <QGroupBox>
 #include "D:/DROSE/Libhpp/mythread.hpp"
 #include "D:/DROSE/Libhpp/__communicateLib.hpp"
+#include "D:/DROSE/Libhpp/__xlsxFile.hpp"
 #include <QProcess>
 #include <QSettings>
 #include <mysqlite.h>
-#include <xlsxfile.h>
+//#include <xlsxfile.h>
 #include <QtSql\QSqlTableModel>
 #include <dologs.h>
 #include <QtSerialBus/QModbusDataUnit>
@@ -32,7 +33,8 @@
 #pragma comment(lib, "scansn.lib")
 #pragma comment(lib, "xmlwidget.lib")
 #pragma comment(lib, "mysqlite.lib")
-#pragma comment(lib, "xlsxFile.lib")
+//#pragma comment(lib, "xlsxFile.lib")
+#pragma comment(lib, "Qt5Xlsxd.lib")
 #pragma comment(lib, "mytimer.lib")
 #pragma comment(lib, "dologs.lib")
 

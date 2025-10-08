@@ -20,7 +20,7 @@ QIoTest::QIoTest(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.4  东莞精伟智能"));
+	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.5  东莞精伟智能"));
 	
 	gpUi = &ui;
 	
@@ -108,7 +108,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 		ui.lineEdit_path->setText(mFilePath);
 
-		FileIo::xlsxFile file;
+		FileIo::XlsxFile file;
 		file.readExcel(mFilePath, ui.tableWidget);
 
 		gpUi->tableWidget->resizeColumnsToContents();
@@ -152,7 +152,7 @@ QIoTest::QIoTest(QWidget *parent)
 	ui.pushButtonSave->setEnabled(false);
 	connect(ui.pushButtonSave, &QPushButton::clicked, [this]() {
 
-		FileIo::xlsxFile file;
+		FileIo::XlsxFile file;
 		file.writeExcel(mFilePath, ui.tableWidget);
 
 	});
@@ -250,7 +250,7 @@ QIoTest::QIoTest(QWidget *parent)
 
 		if (mListTest.size() < 1)
 		{
-			QMessageBox::information(this, "", QStringLiteral("请先加载测试档案..."));
+			QMessageBox::information(this, "", QObject::tr("请先加载测试档案..."));
 			gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 			ui.pushButtonStart->setEnabled(true);
 			return;

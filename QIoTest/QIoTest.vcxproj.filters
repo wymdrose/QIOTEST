@@ -90,5 +90,8 @@
     <ClInclude Include="modbusModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Libhpp\__xlsxFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

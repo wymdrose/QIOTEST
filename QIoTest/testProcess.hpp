@@ -89,7 +89,7 @@ void QIoTest::slotStartList()
 	ui.labelResult->clear();
 	if (mListTest.size() < 1)
 	{
-		QMessageBox::information(this, "", QStringLiteral("请先加载测试档案！"));
+		QMessageBox::information(this, "", QObject::tr("请先加载测试档案！"));
 		gpSignal->colorSignal(gpUi->pushButtonStart, "QPushButton{background:}");
 		ui.pushButtonStart->setEnabled(true);
 		return;
