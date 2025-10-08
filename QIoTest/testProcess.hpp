@@ -124,18 +124,23 @@ void QIoTest::slotStartList()
 		ui.tableWidget->selectRow(it->rowNo);
 		ui.tableWidget->setFocus();
 
+		ui.labelCoordinateL->setText(it->coordinateL);
+		ui.labelCoordinateR->setText(it->coordinateR);
+		ui.labelPinL->setText(it->pinL);
+		ui.labelPinR->setText(it->pinR);
+		ui.labelCategory->setText(it->category);
+
 		if (!lineTest(*it))
 		{
 			result = false;
-			ui.labelCoordinateL->setText(it->coordinateL);
-			ui.labelCoordinateR->setText(it->coordinateR);
-			ui.labelPinL->setText(it->pinL);
-			ui.labelPinR->setText(it->pinR);
-			ui.labelCategory->setText(it->category);
 
 			gpSignal->textSignal(ui.tableWidget->item(it->rowNo, 0), "NG");
 			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 0), QColor(255, 0, 0), 0);
-		
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 1), QColor(255, 0, 0), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 2), QColor(255, 0, 0), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 3), QColor(255, 0, 0), 0);
+			gpSignal->colorSignal(ui.tableWidget->item(it->rowNo, 4), QColor(255, 0, 0), 0);
+
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 
 			ng_list_.append(*it);
@@ -147,19 +152,29 @@ void QIoTest::slotStartList()
 		{
 			ui.tableWidget->item(it->rowNo, 0)->setText("OK");
 			ui.tableWidget->item(it->rowNo, 0)->setBackgroundColor(QColor(0, 255, 0));
+			ui.tableWidget->item(it->rowNo, 1)->setBackgroundColor(QColor(0, 255, 0));
+			ui.tableWidget->item(it->rowNo, 2)->setBackgroundColor(QColor(0, 255, 0));
+			ui.tableWidget->item(it->rowNo, 3)->setBackgroundColor(QColor(0, 255, 0));
+			ui.tableWidget->item(it->rowNo, 4)->setBackgroundColor(QColor(0, 255, 0));
 		}
 	}
 
 	//ng list show
 	gpUi->tableWidgetNg->setRowCount(ng_list_.count());
-	gpUi->tableWidgetNg->setColumnCount(7);
+	gpUi->tableWidgetNg->setColumnCount(10);
 	for (size_t i = 0; i < ng_list_.count(); i++)
 	{
-		gpUi->tableWidgetNg->setItem(i, 1, QTableWidgetItem(ng_list_[i].coordinateL).clone());
-		gpUi->tableWidgetNg->setItem(i, 2, QTableWidgetItem(ng_list_[i].coordinateR).clone());
-		gpUi->tableWidgetNg->setItem(i, 3, QTableWidgetItem(ng_list_[i].category).clone());
-		gpUi->tableWidgetNg->setItem(i, 4, QTableWidgetItem(ng_list_[i].pinL).clone());
-		gpUi->tableWidgetNg->setItem(i, 5, QTableWidgetItem(ng_list_[i].pinR).clone());
+		int index = 0;
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("NG").clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].coordinateL).clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].coordinateR).clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].category).clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("").clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("").clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("").clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem("").clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].pinL).clone());
+		gpUi->tableWidgetNg->setItem(i, index++, QTableWidgetItem(ng_list_[i].pinR).clone());
 	}
 	gpUi->tableWidgetNg->resizeColumnsToContents();
 

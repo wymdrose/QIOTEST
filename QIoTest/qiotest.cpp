@@ -20,7 +20,7 @@ QIoTest::QIoTest(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.3  东莞精伟智能"));
+	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.4  东莞精伟智能"));
 	
 	gpUi = &ui;
 	
@@ -232,7 +232,8 @@ QIoTest::QIoTest(QWidget *parent)
 			return;
 		}
 
-		QList<QTableWidgetItem*>items = ui.tableWidget->selectedItems();
+		auto widget = ui.tableWidgetNg;
+		QList<QTableWidgetItem*>items = widget->selectedItems();
 		if (items.count() < 1)
 		{
 			QMessageBox::information(this, "", QStringLiteral("请选择测试行..."));
@@ -243,16 +244,16 @@ QIoTest::QIoTest(QWidget *parent)
 		bStep_ = true;
 		ui.pushButtonRead->clicked();
 
-		int i = ui.tableWidget->row(items.at(0));
+		int i = widget->row(items.at(0));
 		itemTest tItem;
 		tItem.bInlist = true;
 		tItem.result = -1;
 		tItem.rowNo = i;
-		tItem.coordinateL = ui.tableWidget->item(i, 1)->text();
-		tItem.coordinateR = ui.tableWidget->item(i, 2)->text();
-		tItem.category = ui.tableWidget->item(i, 3)->text();
-		tItem.pinL = ui.tableWidget->item(i, 8)->text();
-		tItem.pinR = ui.tableWidget->item(i, 9)->text();
+		tItem.coordinateL = widget->item(i, 1)->text();
+		tItem.coordinateR = widget->item(i, 2)->text();
+		tItem.category = widget->item(i, 3)->text();
+		tItem.pinL = widget->item(i, 8)->text();
+		tItem.pinR = widget->item(i, 9)->text();
 
 		ui.labelCoordinateL->setText(tItem.coordinateL);
 		ui.labelCoordinateR->setText(tItem.coordinateR);
@@ -262,14 +263,14 @@ QIoTest::QIoTest(QWidget *parent)
 
 		if (!lineTest(tItem))
 		{
-			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "NG");
-			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
+			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "NG");
+			gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(255, 0, 0), 0);
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:red;'>%0</font>").arg(lineMsg_));
 		}
 		else
 		{
-			gpSignal->textSignal(ui.tableWidget->item(tItem.rowNo, 0), "OK");
-			gpSignal->colorSignal(ui.tableWidget->item(tItem.rowNo, 0), QColor(255, 255, 0), 0);
+			gpSignal->textSignal(widget->item(tItem.rowNo, 0), "OK");
+			gpSignal->colorSignal(widget->item(tItem.rowNo, 0), QColor(255, 255, 0), 0);
 			ui.labelResult->setText(QStringLiteral("<font style='font-size:40px; color:green;'>OK: %0 - %1</font>").arg(tItem.pinL).arg(tItem.pinR));
 		}
 
@@ -278,10 +279,19 @@ QIoTest::QIoTest(QWidget *parent)
 
 	connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, [this](){
 		auto items = ui.tableWidget->selectedItems();
-		if (items.count() > 7)
+		auto size = items.count();
+		if (size >= 7)
 		{
+			ui.labelCoordinateL->setText(items[1]->text());
+			ui.labelCoordinateR->setText(items[2]->text());
+			ui.labelCategory->setText(items[3]->text());
 			ui.labelPinL->setText(items[5]->text());
 			ui.labelPinR->setText(items[6]->text());
+		}
+		if (size >= 10)
+		{
+			ui.labelPinL->setText(items[8]->text());
+			ui.labelPinR->setText(items[9]->text());
 		}
 		
 	});
@@ -323,7 +333,7 @@ void QIoTest::slotFindBegin()
 {
 	while (true)
 	{
-		_sleeploop(300);
+		_sleeploop(100);
 
 		if (mbExit)
 		{
