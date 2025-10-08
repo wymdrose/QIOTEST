@@ -179,6 +179,30 @@ QIoTest::QIoTest(QWidget *parent)
 	});
 
 	// 
+	connect(ui.btn_find_coor, &QPushButton::clicked, [this]() {
+		auto coor = ui.lineEdit_coor->text();
+		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+		{
+			if (it->coordinateL == coor || it->coordinateR == coor)
+			{
+				ui.tableWidget->selectRow(it->rowNo);
+				ui.tableWidget->setFocus();
+			}
+		}
+	});
+
+	connect(ui.btn_find_pin, &QPushButton::clicked, [this]() {
+		auto pin = ui.lineEdit_pin->text();
+		for (auto it = mListTest.begin(); it != mListTest.end(); ++it)
+		{
+			if (it->pinL == pin || it->pinR == pin)
+			{
+				ui.tableWidget->selectRow(it->rowNo);
+				ui.tableWidget->setFocus();
+			}
+		}
+	});
+
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 
 		QDialog* tpDialog = new QDialog();

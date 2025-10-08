@@ -76,10 +76,10 @@ public:
     QGridLayout *gridLayout_5;
     QLabel *labelCategory;
     QHBoxLayout *horizontalLayout_5;
-    QLineEdit *lineEdit;
-    QPushButton *pushButton_17;
-    QLineEdit *lineEdit_2;
-    QPushButton *pushButton_18;
+    QLineEdit *lineEdit_coor;
+    QPushButton *btn_find_coor;
+    QLineEdit *lineEdit_pin;
+    QPushButton *btn_find_pin;
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_12;
@@ -317,29 +317,32 @@ public:
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        lineEdit = new QLineEdit(groupBox_2);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setEnabled(false);
+        lineEdit_coor = new QLineEdit(groupBox_2);
+        lineEdit_coor->setObjectName(QStringLiteral("lineEdit_coor"));
+        lineEdit_coor->setEnabled(true);
+        lineEdit_coor->setLayoutDirection(Qt::LeftToRight);
+        lineEdit_coor->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        horizontalLayout_5->addWidget(lineEdit);
+        horizontalLayout_5->addWidget(lineEdit_coor);
 
-        pushButton_17 = new QPushButton(groupBox_2);
-        pushButton_17->setObjectName(QStringLiteral("pushButton_17"));
-        pushButton_17->setEnabled(false);
+        btn_find_coor = new QPushButton(groupBox_2);
+        btn_find_coor->setObjectName(QStringLiteral("btn_find_coor"));
+        btn_find_coor->setEnabled(true);
 
-        horizontalLayout_5->addWidget(pushButton_17);
+        horizontalLayout_5->addWidget(btn_find_coor);
 
-        lineEdit_2 = new QLineEdit(groupBox_2);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setEnabled(false);
+        lineEdit_pin = new QLineEdit(groupBox_2);
+        lineEdit_pin->setObjectName(QStringLiteral("lineEdit_pin"));
+        lineEdit_pin->setEnabled(true);
+        lineEdit_pin->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        horizontalLayout_5->addWidget(lineEdit_2);
+        horizontalLayout_5->addWidget(lineEdit_pin);
 
-        pushButton_18 = new QPushButton(groupBox_2);
-        pushButton_18->setObjectName(QStringLiteral("pushButton_18"));
-        pushButton_18->setEnabled(false);
+        btn_find_pin = new QPushButton(groupBox_2);
+        btn_find_pin->setObjectName(QStringLiteral("btn_find_pin"));
+        btn_find_pin->setEnabled(true);
 
-        horizontalLayout_5->addWidget(pushButton_18);
+        horizontalLayout_5->addWidget(btn_find_pin);
 
 
         gridLayout_8->addLayout(horizontalLayout_5, 1, 0, 1, 1);
@@ -583,8 +586,9 @@ public:
         labelPinR->setText(QString());
         groupBox_7->setTitle(QApplication::translate("QIoTestClass", "\345\233\276\345\217\267", Q_NULLPTR));
         labelCategory->setText(QString());
-        pushButton_17->setText(QApplication::translate("QIoTestClass", "\345\235\220\346\240\207\346\237\245", Q_NULLPTR));
-        pushButton_18->setText(QApplication::translate("QIoTestClass", "\351\222\210\347\202\271\346\237\245", Q_NULLPTR));
+        lineEdit_coor->setText(QString());
+        btn_find_coor->setText(QApplication::translate("QIoTestClass", "\345\235\220\346\240\207\346\237\245", Q_NULLPTR));
+        btn_find_pin->setText(QApplication::translate("QIoTestClass", "\351\222\210\347\202\271\346\237\245", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\346\241\243\346\241\210", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("QIoTestClass", "NG\350\256\260\345\275\225", Q_NULLPTR));
         pushButtonMoveUp->setText(QApplication::translate("QIoTestClass", "/\\ \n"

@@ -262,16 +262,25 @@
                     <item row="1" column="0">
                      <layout class="QHBoxLayout" name="horizontalLayout_5">
                       <item>
-                       <widget class="QLineEdit" name="lineEdit">
+                       <widget class="QLineEdit" name="lineEdit_coor">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                         </property>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_17">
+                       <widget class="QPushButton" name="btn_find_coor">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
                         </property>
                         <property name="text">
                          <string>坐标查</string>
@@ -279,16 +288,19 @@
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="lineEdit_2">
+                       <widget class="QLineEdit" name="lineEdit_pin">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                         </property>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_18">
+                       <widget class="QPushButton" name="btn_find_pin">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
                         </property>
                         <property name="text">
                          <string>针点查</string>
