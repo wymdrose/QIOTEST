@@ -39,7 +39,7 @@ bool QIoTest::checkPins(itemTest item)
 
 		if (item.contains(L) && item.contains(R))
 		{
-			if (!checkShort(item, L, R))
+			if (enShort_ && !checkShort(item, L, R))
 			{
 				return false;	//short
 			}

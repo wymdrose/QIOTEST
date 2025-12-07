@@ -20,7 +20,7 @@ QIoTest::QIoTest(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.6  东莞精伟智能"));
+	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.7  东莞精伟智能"));
 	
 	gpUi = &ui;
 	
@@ -203,6 +203,21 @@ QIoTest::QIoTest(QWidget *parent)
 		}
 	});
 
+	connect(ui.checkBox_short, &QCheckBox::clicked, [this](bool checked) {
+		if (checked)
+		{
+			qDebug() << "Checkbox is now checked.";
+			enShort_ = true;
+		}
+		else
+		{
+			qDebug() << "Checkbox is now unchecked.";
+			enShort_ = false;
+		}
+			
+	});
+
+	
 	connect(ui.pushButtonFindpoint, &QPushButton::clicked, [this]() {
 
 		QDialog* tpDialog = new QDialog();

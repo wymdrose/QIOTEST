@@ -87,6 +87,7 @@ private:
 	bool mbPause = false;
 	bool mbExit = false;
 	bool bStep_ = false;
+	bool enShort_ = false;
 	//---------------------------------------------------------------------//
 
 	QVector<QSet<int>> modbusSets;

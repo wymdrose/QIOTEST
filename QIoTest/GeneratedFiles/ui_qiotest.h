@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
@@ -80,6 +81,7 @@ public:
     QPushButton *btn_find_coor;
     QLineEdit *lineEdit_pin;
     QPushButton *btn_find_pin;
+    QCheckBox *checkBox_short;
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_12;
@@ -374,6 +376,11 @@ public:
 
         horizontalLayout_5->addWidget(btn_find_pin);
 
+        checkBox_short = new QCheckBox(groupBox_2);
+        checkBox_short->setObjectName(QStringLiteral("checkBox_short"));
+
+        horizontalLayout_5->addWidget(checkBox_short);
+
 
         gridLayout_8->addLayout(horizontalLayout_5, 1, 0, 1, 1);
 
@@ -635,6 +642,7 @@ public:
         lineEdit_coor->setText(QString());
         btn_find_coor->setText(QApplication::translate("QIoTestClass", "\345\235\220\346\240\207\346\237\245", Q_NULLPTR));
         btn_find_pin->setText(QApplication::translate("QIoTestClass", "\351\222\210\347\202\271\346\237\245", Q_NULLPTR));
+        checkBox_short->setText(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\347\237\255\350\267\257", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\346\241\243\346\241\210", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("QIoTestClass", "NG\350\256\260\345\275\225", Q_NULLPTR));
         pushButtonMoveUp->setText(QApplication::translate("QIoTestClass", "/\\ \n"
