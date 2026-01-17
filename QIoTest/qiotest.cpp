@@ -20,7 +20,7 @@ QIoTest::QIoTest(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.7  东莞精伟智能"));
+	this->setWindowTitle(QStringLiteral("导通检测仪  本机扫描总点数=1024  软件版本v3.0.8  东莞精伟智能"));
 	
 	gpUi = &ui;
 	
@@ -98,19 +98,118 @@ QIoTest::QIoTest(QWidget *parent)
 	});
 
 
-	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
+
+	// select number
+	auto input = settings.value("input_path").toString();
+	ui.lineEdit_input->setText(input);
+	inputFile_ = input;
+	connect(ui.pushButtonSelect, &QPushButton::clicked, [this]() {
+		auto path = QFileDialog::getOpenFileName(NULL, QStringLiteral("选择图号"),
+			gExePath + "/cfg/", QString("*.xlsx"));
+
+		if (path.isEmpty())
+			return;
 		
-		mFilePath = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件"), 
-			gExePath + "/cfg/", QString("*%0*.xlsx").arg(ui.lineEdit_login->text()));
+		ui.lineEdit_input->setText(path);
+		inputFile_ = path;
+		settings.setValue("input_path", path);
+	});
 
-		if (mFilePath.isEmpty())
-			return;		
+	connect(ui.pushButton_input, &QPushButton::clicked, [this]() {
+		
+		QFileInfo fileInfo(inputFile_);
+		if (!fileInfo.exists()) {
+			QMessageBox::information(this, "", QStringLiteral("选择图号错误!"));
+			qDebug() << "input file error: " << inputFile_;
+			return;
+		}
 
-		ui.lineEdit_path->setText(mFilePath);
+		// read input
+		QStringList input_list;
+		try
+		{
+			FileIo::XlsxFile file;
+			file.readExcel(inputFile_, 2, input_list);
+		}
+		catch (...)
+		{
+			qDebug() << "input.readExcel failed...";
+			return;
+		}
 
-		FileIo::XlsxFile file;
-		file.readExcel(mFilePath, ui.tableWidget);
 
+		QRegularExpression regex("_\\d+_[A-Z]");
+		
+
+		for (auto& item : input_list)
+		{
+			QRegularExpressionMatch match = regex.match(item);
+
+			if (match.hasMatch())
+			{
+				QString matched = match.captured(0);
+				item = matched.remove(0, 1);
+				qDebug() << "input: " << item;
+			}
+		}
+
+		// load
+		ui.listWidgetUp->clear();
+		ui.listWidgetDown->clear();
+		for (auto it = mCurCategorys.begin(); it != mCurCategorys.end(); ++it)
+		{
+			if (input_list.contains(*it))
+			{
+				ui.listWidgetUp->addItem(*it);
+			}
+			else
+			{
+				ui.listWidgetDown->addItem(*it);
+			}
+
+		}
+
+	});
+
+
+	// load test file
+	auto path = settings.value("file_path").toString();
+	ui.lineEdit_path->setText(path);
+	mFilePath = path;
+	connect(ui.pushButtonOpenFile, &QPushButton::clicked, [this]() {
+		auto path = QFileDialog::getOpenFileName(NULL, QStringLiteral("打开文件"),
+			gExePath + "/cfg/", QString("*.xlsx"));
+
+		if (path.isEmpty())
+			return;
+
+		ui.lineEdit_path->setText(path);
+		mFilePath = path;
+		settings.setValue("file_path", path);
+	});
+
+	connect(ui.pushButton_load, &QPushButton::clicked, [this]() {
+
+		QFileInfo fileInfo(mFilePath);
+		if (!fileInfo.exists()) {
+			QMessageBox::information(this, "", QStringLiteral("文件路径错误!"));
+			qDebug() << "file exists error: " << mFilePath;
+			return;
+		}
+
+		// read io
+		try
+		{
+			FileIo::XlsxFile file;
+			file.readExcel(mFilePath, ui.tableWidget);
+		}
+		catch (...)
+		{
+			qDebug() << " read io failed...";
+			return;
+		}
+
+		// load ui
 		gpUi->tableWidget->resizeColumnsToContents();
 
 		auto count = ui.tableWidget->rowCount();
@@ -133,13 +232,9 @@ QIoTest::QIoTest(QWidget *parent)
 
 			mCurCategorys.insert(ui.tableWidget->item(i, 3)->text());
 		}
-
-		for (auto it = mCurCategorys.begin(); it != mCurCategorys.end(); ++it)
-		{
-			ui.listWidgetUp->addItem(*it);			
-		}
-
 	});
+
+	
 	
 	connect(ui.pushButtonEdit, &QPushButton::clicked, [this]() {
 

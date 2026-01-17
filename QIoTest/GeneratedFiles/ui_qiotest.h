@@ -102,19 +102,21 @@ public:
     QGridLayout *gridLayout_3;
     QListWidget *listWidgetDown;
     QGridLayout *gridLayout_17;
-    QLabel *label;
-    QLineEdit *lineEdit_login;
-    QPushButton *pushButtonOpenFile;
-    QLineEdit *lineEdit_path;
-    QPushButton *pushButtonFindpoint;
-    QPushButton *pushButtonEdit;
-    QPushButton *pushButtonSave;
     QPushButton *pushButtonSelfCheck;
+    QPushButton *pushButtonEdit;
     QPushButton *pushButtonLockScreen;
-    QComboBox *comboBox;
+    QPushButton *pushButtonOpenFile;
     QPushButton *pushButtonConnect;
-    QPushButton *pushButtonRead;
     QPushButton *pushButton_11;
+    QComboBox *comboBox;
+    QPushButton *pushButtonSave;
+    QPushButton *pushButton_input;
+    QPushButton *pushButtonFindpoint;
+    QPushButton *pushButtonRead;
+    QLineEdit *lineEdit_path;
+    QLineEdit *lineEdit_input;
+    QPushButton *pushButtonSelect;
+    QPushButton *pushButton_load;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -510,82 +512,102 @@ public:
         gridLayout_17 = new QGridLayout();
         gridLayout_17->setSpacing(6);
         gridLayout_17->setObjectName(QStringLiteral("gridLayout_17"));
-        label = new QLabel(groupBox);
-        label->setObjectName(QStringLiteral("label"));
-        label->setFont(font);
+        pushButtonSelfCheck = new QPushButton(groupBox);
+        pushButtonSelfCheck->setObjectName(QStringLiteral("pushButtonSelfCheck"));
 
-        gridLayout_17->addWidget(label, 0, 0, 1, 1);
-
-        lineEdit_login = new QLineEdit(groupBox);
-        lineEdit_login->setObjectName(QStringLiteral("lineEdit_login"));
-        lineEdit_login->setFont(font);
-
-        gridLayout_17->addWidget(lineEdit_login, 0, 1, 1, 1);
-
-        pushButtonOpenFile = new QPushButton(groupBox);
-        pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
-        sizePolicy1.setHeightForWidth(pushButtonOpenFile->sizePolicy().hasHeightForWidth());
-        pushButtonOpenFile->setSizePolicy(sizePolicy1);
-        pushButtonOpenFile->setFont(font1);
-
-        gridLayout_17->addWidget(pushButtonOpenFile, 0, 2, 1, 1);
-
-        lineEdit_path = new QLineEdit(groupBox);
-        lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
-        lineEdit_path->setFont(font);
-
-        gridLayout_17->addWidget(lineEdit_path, 0, 3, 1, 1);
-
-        pushButtonFindpoint = new QPushButton(groupBox);
-        pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
-        pushButtonFindpoint->setFont(font1);
-
-        gridLayout_17->addWidget(pushButtonFindpoint, 0, 4, 1, 1);
+        gridLayout_17->addWidget(pushButtonSelfCheck, 0, 11, 1, 1);
 
         pushButtonEdit = new QPushButton(groupBox);
         pushButtonEdit->setObjectName(QStringLiteral("pushButtonEdit"));
         pushButtonEdit->setEnabled(false);
 
-        gridLayout_17->addWidget(pushButtonEdit, 0, 5, 1, 1);
-
-        pushButtonSave = new QPushButton(groupBox);
-        pushButtonSave->setObjectName(QStringLiteral("pushButtonSave"));
-        pushButtonSave->setEnabled(false);
-
-        gridLayout_17->addWidget(pushButtonSave, 0, 6, 1, 1);
-
-        pushButtonSelfCheck = new QPushButton(groupBox);
-        pushButtonSelfCheck->setObjectName(QStringLiteral("pushButtonSelfCheck"));
-
-        gridLayout_17->addWidget(pushButtonSelfCheck, 0, 7, 1, 1);
+        gridLayout_17->addWidget(pushButtonEdit, 0, 9, 1, 1);
 
         pushButtonLockScreen = new QPushButton(groupBox);
         pushButtonLockScreen->setObjectName(QStringLiteral("pushButtonLockScreen"));
 
-        gridLayout_17->addWidget(pushButtonLockScreen, 0, 8, 1, 1);
+        gridLayout_17->addWidget(pushButtonLockScreen, 0, 12, 1, 1);
 
-        comboBox = new QComboBox(groupBox);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setFont(font1);
+        pushButtonOpenFile = new QPushButton(groupBox);
+        pushButtonOpenFile->setObjectName(QStringLiteral("pushButtonOpenFile"));
+        sizePolicy1.setHeightForWidth(pushButtonOpenFile->sizePolicy().hasHeightForWidth());
+        pushButtonOpenFile->setSizePolicy(sizePolicy1);
+        pushButtonOpenFile->setFont(font);
 
-        gridLayout_17->addWidget(comboBox, 0, 9, 1, 1);
+        gridLayout_17->addWidget(pushButtonOpenFile, 0, 2, 1, 1);
 
         pushButtonConnect = new QPushButton(groupBox);
         pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));
         pushButtonConnect->setFont(font1);
 
-        gridLayout_17->addWidget(pushButtonConnect, 0, 10, 1, 1);
-
-        pushButtonRead = new QPushButton(groupBox);
-        pushButtonRead->setObjectName(QStringLiteral("pushButtonRead"));
-
-        gridLayout_17->addWidget(pushButtonRead, 0, 11, 1, 1);
+        gridLayout_17->addWidget(pushButtonConnect, 0, 14, 1, 1);
 
         pushButton_11 = new QPushButton(groupBox);
         pushButton_11->setObjectName(QStringLiteral("pushButton_11"));
         pushButton_11->setEnabled(false);
 
-        gridLayout_17->addWidget(pushButton_11, 0, 12, 1, 1);
+        gridLayout_17->addWidget(pushButton_11, 0, 16, 1, 1);
+
+        comboBox = new QComboBox(groupBox);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setFont(font1);
+
+        gridLayout_17->addWidget(comboBox, 0, 13, 1, 1);
+
+        pushButtonSave = new QPushButton(groupBox);
+        pushButtonSave->setObjectName(QStringLiteral("pushButtonSave"));
+        pushButtonSave->setEnabled(false);
+
+        gridLayout_17->addWidget(pushButtonSave, 0, 10, 1, 1);
+
+        pushButton_input = new QPushButton(groupBox);
+        pushButton_input->setObjectName(QStringLiteral("pushButton_input"));
+        sizePolicy1.setHeightForWidth(pushButton_input->sizePolicy().hasHeightForWidth());
+        pushButton_input->setSizePolicy(sizePolicy1);
+        pushButton_input->setFont(font1);
+
+        gridLayout_17->addWidget(pushButton_input, 0, 7, 1, 1);
+
+        pushButtonFindpoint = new QPushButton(groupBox);
+        pushButtonFindpoint->setObjectName(QStringLiteral("pushButtonFindpoint"));
+        pushButtonFindpoint->setFont(font1);
+
+        gridLayout_17->addWidget(pushButtonFindpoint, 0, 8, 1, 1);
+
+        pushButtonRead = new QPushButton(groupBox);
+        pushButtonRead->setObjectName(QStringLiteral("pushButtonRead"));
+
+        gridLayout_17->addWidget(pushButtonRead, 0, 15, 1, 1);
+
+        lineEdit_path = new QLineEdit(groupBox);
+        lineEdit_path->setObjectName(QStringLiteral("lineEdit_path"));
+        lineEdit_path->setEnabled(false);
+        lineEdit_path->setFont(font);
+
+        gridLayout_17->addWidget(lineEdit_path, 0, 3, 1, 1);
+
+        lineEdit_input = new QLineEdit(groupBox);
+        lineEdit_input->setObjectName(QStringLiteral("lineEdit_input"));
+        lineEdit_input->setEnabled(false);
+        lineEdit_input->setFont(font);
+
+        gridLayout_17->addWidget(lineEdit_input, 0, 6, 1, 1);
+
+        pushButtonSelect = new QPushButton(groupBox);
+        pushButtonSelect->setObjectName(QStringLiteral("pushButtonSelect"));
+        sizePolicy1.setHeightForWidth(pushButtonSelect->sizePolicy().hasHeightForWidth());
+        pushButtonSelect->setSizePolicy(sizePolicy1);
+        pushButtonSelect->setFont(font);
+
+        gridLayout_17->addWidget(pushButtonSelect, 0, 5, 1, 1);
+
+        pushButton_load = new QPushButton(groupBox);
+        pushButton_load->setObjectName(QStringLiteral("pushButton_load"));
+        sizePolicy1.setHeightForWidth(pushButton_load->sizePolicy().hasHeightForWidth());
+        pushButton_load->setSizePolicy(sizePolicy1);
+        pushButton_load->setFont(font);
+
+        gridLayout_17->addWidget(pushButton_load, 0, 4, 1, 1);
 
 
         gridLayout_18->addLayout(gridLayout_17, 0, 0, 1, 1);
@@ -655,16 +677,18 @@ public:
 "\\/", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("QIoTestClass", "\346\265\213\350\257\225\345\233\276\345\217\267", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("QIoTestClass", "\346\241\243\346\241\210\345\233\276\345\217\267", Q_NULLPTR));
-        label->setText(QApplication::translate("QIoTestClass", "\347\231\273\351\231\206\350\264\246\345\217\267:", Q_NULLPTR));
-        pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
-        pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));
-        pushButtonEdit->setText(QApplication::translate("QIoTestClass", "\344\277\256\346\224\271on/off", Q_NULLPTR));
-        pushButtonSave->setText(QApplication::translate("QIoTestClass", "\344\277\235\345\255\230", Q_NULLPTR));
         pushButtonSelfCheck->setText(QApplication::translate("QIoTestClass", "\350\207\252\346\243\200", Q_NULLPTR));
+        pushButtonEdit->setText(QApplication::translate("QIoTestClass", "\344\277\256\346\224\271on/off", Q_NULLPTR));
         pushButtonLockScreen->setText(QApplication::translate("QIoTestClass", "\351\224\201\345\256\232", Q_NULLPTR));
+        pushButtonOpenFile->setText(QApplication::translate("QIoTestClass", "\351\200\211\346\213\251\346\226\207\344\273\266", Q_NULLPTR));
         pushButtonConnect->setText(QApplication::translate("QIoTestClass", "\350\277\236\346\216\245", Q_NULLPTR));
-        pushButtonRead->setText(QApplication::translate("QIoTestClass", "Read", Q_NULLPTR));
         pushButton_11->setText(QApplication::translate("QIoTestClass", "\347\263\273\347\273\237\350\256\276\347\275\256", Q_NULLPTR));
+        pushButtonSave->setText(QApplication::translate("QIoTestClass", "\344\277\235\345\255\230", Q_NULLPTR));
+        pushButton_input->setText(QApplication::translate("QIoTestClass", "\345\257\274\345\205\245", Q_NULLPTR));
+        pushButtonFindpoint->setText(QApplication::translate("QIoTestClass", "\346\211\276\347\202\271", Q_NULLPTR));
+        pushButtonRead->setText(QApplication::translate("QIoTestClass", "Read", Q_NULLPTR));
+        pushButtonSelect->setText(QApplication::translate("QIoTestClass", "\351\200\211\346\213\251\345\233\276\345\217\267", Q_NULLPTR));
+        pushButton_load->setText(QApplication::translate("QIoTestClass", "\345\212\240\350\275\275", Q_NULLPTR));
     } // retranslateUi
 
 };

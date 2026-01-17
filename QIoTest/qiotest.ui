@@ -572,24 +572,27 @@
            </item>
            <item row="0" column="0">
             <layout class="QGridLayout" name="gridLayout_17">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
+             <item row="0" column="11">
+              <widget class="QPushButton" name="pushButtonSelfCheck">
                <property name="text">
-                <string>登陆账号:</string>
+                <string>自检</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_login">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
+             <item row="0" column="9">
+              <widget class="QPushButton" name="pushButtonEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>修改on/off</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="12">
+              <widget class="QPushButton" name="pushButtonLockScreen">
+               <property name="text">
+                <string>锁定</string>
                </property>
               </widget>
              </item>
@@ -603,79 +606,15 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>打开文件</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="3">
-              <widget class="QLineEdit" name="lineEdit_path">
-               <property name="font">
-                <font>
                  <pointsize>12</pointsize>
                 </font>
                </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <widget class="QPushButton" name="pushButtonFindpoint">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
                <property name="text">
-                <string>找点</string>
+                <string>选择文件</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="5">
-              <widget class="QPushButton" name="pushButtonEdit">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>修改on/off</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="6">
-              <widget class="QPushButton" name="pushButtonSave">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>保存</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="7">
-              <widget class="QPushButton" name="pushButtonSelfCheck">
-               <property name="text">
-                <string>自检</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="8">
-              <widget class="QPushButton" name="pushButtonLockScreen">
-               <property name="text">
-                <string>锁定</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="9">
-              <widget class="QComboBox" name="comboBox">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="10">
+             <item row="0" column="14">
               <widget class="QPushButton" name="pushButtonConnect">
                <property name="font">
                 <font>
@@ -687,20 +626,129 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="11">
-              <widget class="QPushButton" name="pushButtonRead">
-               <property name="text">
-                <string>Read</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="12">
+             <item row="0" column="16">
               <widget class="QPushButton" name="pushButton_11">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="text">
                 <string>系统设置</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="13">
+              <widget class="QComboBox" name="comboBox">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="10">
+              <widget class="QPushButton" name="pushButtonSave">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>保存</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="7">
+              <widget class="QPushButton" name="pushButton_input">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>导入</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="8">
+              <widget class="QPushButton" name="pushButtonFindpoint">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>找点</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="15">
+              <widget class="QPushButton" name="pushButtonRead">
+               <property name="text">
+                <string>Read</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="lineEdit_path">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="6">
+              <widget class="QLineEdit" name="lineEdit_input">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QPushButton" name="pushButtonSelect">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>选择图号</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
+              <widget class="QPushButton" name="pushButton_load">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>加载</string>
                </property>
               </widget>
              </item>

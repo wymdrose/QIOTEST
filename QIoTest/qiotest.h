@@ -66,6 +66,7 @@ private:
 	
 	QLabel *mFindPointLabel;
 	QString mFilePath;
+	QString inputFile_;
 	
 	void pushButtonConnectSlot();
 	void pushButtonReadSlot();
